@@ -49,7 +49,7 @@ export default function Header({ scroll = true }) {
     >
       <div className="container mx-auto flex h-16 items-center justify-between px-4 py-4">
         <Navigation setIsModalOpen={setIsModalOpen} isHome={isHome} />
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-3 pl-4">
           {isHome ? (
             <Button className="px-3" variant="default" size="lg">
               <Link href="/scout">Get Started</Link>
