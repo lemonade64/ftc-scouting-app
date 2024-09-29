@@ -34,7 +34,7 @@ function FeatureSection() {
             {getIcon(feature.title)}
           </div>
           <div className="text-lg font-bold mb-2 relative z-10 px-10">
-            <div className="absolute left-0 inset-y-0 h-6 group-hover:h-8 w-1 rounded-tr-full rounded-br-full bg-neutral-300 dark:bg-neutral-700 group-hover:bg-black transition-all duration-200 origin-center" />
+            <div className="absolute left-0 inset-y-0 h-6 group-hover:h-8 w-1 rounded-tr-full rounded-br-full bg-neutral-300 dark:bg-neutral-700 group-hover:bg-black dark:group-hover:bg-white transition-all duration-200 origin-center" />
             <span className="group-hover:translate-x-2 transition duration-200 inline-block text-neutral-800 dark:text-neutral-100">
               {feature.title}
             </span>
