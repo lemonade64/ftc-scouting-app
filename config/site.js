@@ -70,16 +70,17 @@ export const errorLinks = [
 export const featuresList = [
   {
     title: "Offline Compatibility",
-    description: "Scout matches anytime, anywhere, even without internet.",
+    description: "Scout matches anytime, anywhere, even without internet",
   },
   {
     title: "Ease of Use",
-    description: "",
+    description:
+      "Intuitive interface designed for efficient data entry and navigation",
   },
   {
     title: "Open Source",
     description:
-      "Join our community! Being open source means anyone can contribute their skills and ideas.",
+      "Join our community! Being open source means anyone can contribute their skills and ideas",
   },
   {
     title: "99.99% Uptime",
@@ -93,12 +94,12 @@ export const featuresList = [
   },
   {
     title: "Data Analysis",
-    description:
-      "Transform your data into insights with our analysis tools. Make your strategy shine",
+    description: "Transform your data into insights with our analysis tools",
   },
   {
     title: "Google Sheets Integration",
-    description: "",
+    description:
+      "Analyse and share data with Google Sheets for real time collaboration and insights",
   },
   {
     title: "And everything else",
