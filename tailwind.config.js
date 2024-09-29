@@ -11,11 +11,7 @@ export default {
     "./node_modules/fumadocs-ui/dist/**/*.js",
   ],
   plugins: [require("tailwindcss-animate")],
-  presets: [
-    createPreset({
-      preset: "ocean",
-    }),
-  ],
+  presets: [createPreset()],
   theme: {
     extend: {
       borderRadius: {
