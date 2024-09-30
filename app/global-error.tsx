@@ -1,5 +1,7 @@
 "use client";
 
+import "./global.css";
+
 import { useEffect } from "react";
 import Link from "next/link";
 import { Analytics } from "@vercel/analytics/react";
