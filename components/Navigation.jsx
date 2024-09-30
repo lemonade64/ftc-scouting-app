@@ -18,7 +18,7 @@ import {
 import { Menu } from "lucide-react";
 
 function DesktopNavigation({ isHome }) {
-  const links = isHome ? headerLinks.home : headerLinks.other;
+  const links = headerLinks;
 
   return (
     <nav className="hidden md:flex items-center space-x-6">
@@ -37,7 +37,7 @@ function DesktopNavigation({ isHome }) {
 
 function MobileNavigation({ setIsModalOpen, isHome }) {
   const [isOpen, setIsOpen] = useState(false);
-  const links = isHome ? headerLinks.home : headerLinks.other;
+  const links = headerLinks;
 
   useEffect(() => {
     setIsModalOpen(isOpen);
@@ -75,7 +75,11 @@ function MobileNavigation({ setIsModalOpen, isHome }) {
                 <Button className="w-full" size="lg">
                   <Link href="/scout">Get Started</Link>
                 </Button>
-              ) : null}
+              ) : (
+                <Button className="w-full" size="lg">
+                  <Link href="/dashboard">Dashboard</Link>
+                </Button>
+              )}
             </DrawerFooter>
           </div>
         </DrawerContent>

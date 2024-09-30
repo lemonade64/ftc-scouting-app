@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu } from "lucide-react";
 
 import { useScroll } from "@/hooks/useScroll";
 import { cn } from "@/lib/utils";
@@ -54,7 +53,11 @@ export default function Header({ scroll = true }) {
             <Button className="px-3" variant="default" size="lg">
               <Link href="/scout">Get Started</Link>
             </Button>
-          ) : null}
+          ) : (
+            <Button className="px-3" variant="default" size="lg">
+              <Link href="/dashboard">Dashboard</Link>
+            </Button>
+          )}
         </div>
       </div>
     </header>

@@ -26,39 +26,23 @@ export const siteConfig = {
   },
 };
 
-export const headerLinks = {
-  home: [
-    {
-      name: "Docs",
-      href: "/docs",
-    },
-    {
-      name: "Features",
-      href: "/features",
-    },
-  ],
-  other: [
-    {
-      name: "Docs",
-      href: "/docs",
-    },
-    {
-      name: "Dashboard",
-      href: "/dashboard",
-    },
-  ],
-};
+export const headerLinks = [
+  {
+    name: "Docs",
+    href: "/docs",
+  },
+];
 
 export const errorLinks = [
+  {
+    name: "Home",
+    href: "/",
+    description: "Explore what Curator can do for your team",
+  },
   {
     name: "Documentation",
     href: "/docs",
     description: "Learn how Curator works",
-  },
-  {
-    name: "Features",
-    href: "/features",
-    description: "Explore what Curator can do for your team",
   },
   {
     name: "Scout",
