@@ -34,7 +34,7 @@ import DataEditor from "@/components/DataEditor";
 
 const submissionsArraySchema = z.array(formSchema);
 
-export default function ImportData() {
+export default function DataImporter() {
   const [showScanner, setShowScanner] = useState(false);
   const [showJSONModal, setShowJSONModal] = useState(false);
   const [jsonInput, setJSONInput] = useState("");
