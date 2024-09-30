@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
@@ -12,37 +13,37 @@ import {
   LayoutDashboard,
 } from "lucide-react";
 
+function getCookie(name) {
+  if (typeof document === "undefined") return null;
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop()?.split(";").shift() ?? null;
+  return null;
+}
+
 export default function NotFound() {
   const [links, setLinks] = useState(errorLinks);
 
   useEffect(() => {
-    function checkCookie() {
-      const cookies = document.cookie.split(";");
-      const hasFormSubmissions = cookies.some((cookie) =>
-        cookie.trim().startsWith("hasFormSubmissions=true")
+    const hasFormSubmissions = getCookie("hasFormSubmissions") === "true";
+    if (hasFormSubmissions) {
+      setLinks((prevLinks) =>
+        prevLinks.map((link) =>
+          link.name.toLowerCase() === "home"
+            ? {
+                ...link,
+                name: "Dashboard",
+                href: "/dashboard",
+                description: "Visit your dashboard",
+              }
+            : link
+        )
       );
-
-      if (hasFormSubmissions) {
-        setLinks((prevLinks) =>
-          prevLinks.map((link) =>
-            link.name.toLowerCase() === "home"
-              ? {
-                  ...link,
-                  name: "Dashboard",
-                  href: "/dashboard",
-                  description: "Visit your dashboard",
-                }
-              : link
-          )
-        );
-      }
     }
-
-    checkCookie();
   }, []);
 
   return (
-    <div className="flex items-center justify-center h-[calc(100vh-130px)] bg-background">
+    <div className="flex items-center justify-center h-[calc(100vh-130px)] bg-background min-h-[500px]">
       <div className="w-full max-w-2xl px-4 py-12">
         <h2 className="text-primary text-4xl font-bold text-center mb-4">
           404
@@ -57,7 +58,7 @@ export default function NotFound() {
         <div className="space-y-4 md:space-y-6">
           {links.map((link, index) => (
             <Link
-              key={index}
+              key={`${link.name}-${index}`}
               href={link.href}
               className="flex items-center p-4 bg-muted rounded-lg hover:bg-muted/80 transition-colors"
             >
@@ -82,7 +83,6 @@ export default function NotFound() {
 function getIcon(name) {
   switch (name.toLowerCase()) {
     case "home":
-      return <House className="w-6 h-6" />;
     case "dashboard":
       return <LayoutDashboard className="w-6 h-6" />;
     case "documentation":
@@ -90,6 +90,6 @@ function getIcon(name) {
     case "scout":
       return <ClipboardList className="w-6 h-6" />;
     default:
-      return null;
+      return <House className="w-6 h-6" />;
   }
 }

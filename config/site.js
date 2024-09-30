@@ -35,11 +35,6 @@ export const headerLinks = [
 
 export const errorLinks = [
   {
-    name: "Home",
-    href: "/",
-    description: "Explore what Curator can do for your team",
-  },
-  {
     name: "Documentation",
     href: "/docs",
     description: "Learn how Curator works",
@@ -47,7 +42,12 @@ export const errorLinks = [
   {
     name: "Scout",
     href: "/scout",
-    description: "Access the scouting interface to enter match data",
+    description: "Access the scouting form to record match data",
+  },
+  {
+    name: "Home",
+    href: "/",
+    description: "Explore what Curator can do for your team",
   },
 ];
 
