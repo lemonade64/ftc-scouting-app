@@ -1,8 +1,46 @@
+"use client";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ChevronRight, BookOpen, Flag, ClipboardList } from "lucide-react";
+
 import { errorLinks } from "@/config/site";
 
+import {
+  BookOpen,
+  ChevronRight,
+  ClipboardList,
+  House,
+  LayoutDashboard,
+} from "lucide-react";
+
 export default function NotFound() {
+  const [links, setLinks] = useState(errorLinks);
+
+  useEffect(() => {
+    function checkCookie() {
+      const cookies = document.cookie.split(";");
+      const hasFormSubmissions = cookies.some((cookie) =>
+        cookie.trim().startsWith("hasFormSubmissions=true")
+      );
+
+      if (hasFormSubmissions) {
+        setLinks((prevLinks) =>
+          prevLinks.map((link) =>
+            link.name.toLowerCase() === "home"
+              ? {
+                  ...link,
+                  name: "Dashboard",
+                  href: "/dashboard",
+                  description: "Visit your dashboard",
+                }
+              : link
+          )
+        );
+      }
+    }
+
+    checkCookie();
+  }, []);
+
   return (
     <div className="flex items-center justify-center h-[calc(100vh-130px)] bg-background">
       <div className="w-full max-w-2xl px-4 py-12">
@@ -17,7 +55,7 @@ export default function NotFound() {
         </p>
 
         <div className="space-y-4 md:space-y-6">
-          {errorLinks.map((link, index) => (
+          {links.map((link, index) => (
             <Link
               key={index}
               href={link.href}
@@ -36,12 +74,6 @@ export default function NotFound() {
             </Link>
           ))}
         </div>
-
-        <div className="mt-12 text-center">
-          <Link href="/" className="text-primary hover:underline">
-            ← Back to home
-          </Link>
-        </div>
       </div>
     </div>
   );
@@ -49,11 +81,15 @@ export default function NotFound() {
 
 function getIcon(name) {
   switch (name.toLowerCase()) {
+    case "home":
+      return <House className="w-6 h-6" />;
+    case "dashboard":
+      return <LayoutDashboard className="w-6 h-6" />;
     case "documentation":
       return <BookOpen className="w-6 h-6" />;
-    case "features":
-      return <Flag className="w-6 h-6" />;
     case "scout":
       return <ClipboardList className="w-6 h-6" />;
+    default:
+      return null;
   }
 }
