@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Analytics } from "@vercel/analytics/react";
 import { Poppins } from "next/font/google";
 import Script from "next/script";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { siteConfig, errorLinks } from "@/config/site";
 
@@ -143,6 +144,7 @@ export default function GlobalError({
               </div>
             </div>
           </RootProvider>
+          <SpeedInsights />
           <Analytics />
           <Toaster richColors position="bottom-center" />
           <Footer />

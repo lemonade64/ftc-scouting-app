@@ -3,6 +3,7 @@ import "./global.css";
 import { Analytics } from "@vercel/analytics/react";
 import { Poppins } from "next/font/google";
 import Script from "next/script";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { cookies } from "next/headers";
 
 import { metadata } from "@/app/metadata";
@@ -91,6 +92,7 @@ export default function RootLayout({
           <Header />
           <RootProvider>{children}</RootProvider>
           <Analytics />
+          <SpeedInsights />
           <Toaster richColors position="bottom-center" />
           <ReloadHandler />
           <Footer />
