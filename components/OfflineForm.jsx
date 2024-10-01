@@ -61,6 +61,7 @@ export default function OfflineForm() {
       teleopBasketLow: 0,
       teleopChamberHigh: 0,
       teleopChamberLow: 0,
+      teleopCycleTimes: [],
       endgameAscentLevel: "",
       endgameAscentTime: "",
       extraNotes: "",
