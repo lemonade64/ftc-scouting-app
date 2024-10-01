@@ -19,7 +19,7 @@ import { PlusIcon } from "lucide-react";
 
 export default function AutonomousFields({ control, setValue }) {
   function incrementField(fieldName, currentValue) {
-    setValue(fieldName, currentValue + 1);
+    setValue(fieldName, (currentValue || 0) + 1);
   }
 
   return (
@@ -46,7 +46,13 @@ export default function AutonomousFields({ control, setValue }) {
                         <Input
                           type="number"
                           {...field}
-                          onChange={(e) => field.onChange(+e.target.value)}
+                          onChange={(e) =>
+                            field.onChange(
+                              e.target.value === ""
+                                ? undefined
+                                : +e.target.value
+                            )
+                          }
                           autoComplete="off"
                         />
                       </FormControl>
@@ -73,7 +79,7 @@ export default function AutonomousFields({ control, setValue }) {
         render={({ field }) => (
           <FormItem>
             <FormLabel>Preload</FormLabel>
-            <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <Select onValueChange={field.onChange} value={field.value}>
               <FormControl>
                 <SelectTrigger>
                   <SelectValue placeholder="Select Preload" />

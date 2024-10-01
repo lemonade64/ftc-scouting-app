@@ -48,11 +48,11 @@ export default function OfflineForm() {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      teamNumber: "",
+      teamNumber: undefined,
       teamName: "",
-      qualificationNumber: "",
-      allianceColour: "",
-      autoPreload: "",
+      qualificationNumber: undefined,
+      allianceColour: undefined,
+      autoPreload: undefined,
       autoBasketHigh: 0,
       autoBasketLow: 0,
       autoChamberHigh: 0,
@@ -62,8 +62,8 @@ export default function OfflineForm() {
       teleopChamberHigh: 0,
       teleopChamberLow: 0,
       teleopCycleTimes: [],
-      endgameAscentLevel: "",
-      endgameAscentTime: "",
+      endgameAscentLevel: undefined,
+      endgameAscentTime: undefined,
       extraNotes: "",
     },
   });

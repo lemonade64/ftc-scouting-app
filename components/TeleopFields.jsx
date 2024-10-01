@@ -29,7 +29,7 @@ export default function TeleopFields({ control, setValue }) {
   }, [isRunning]);
 
   function incrementField(fieldName, currentValue) {
-    setValue(fieldName, currentValue + 1);
+    setValue(fieldName, (currentValue || 0) + 1);
   }
 
   function handleStartStop() {
@@ -90,7 +90,11 @@ export default function TeleopFields({ control, setValue }) {
                       <Input
                         type="number"
                         {...field}
-                        onChange={(e) => field.onChange(+e.target.value)}
+                        onChange={(e) =>
+                          field.onChange(
+                            e.target.value === "" ? undefined : +e.target.value
+                          )
+                        }
                         autoComplete="off"
                       />
                     </FormControl>

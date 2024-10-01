@@ -31,7 +31,7 @@ export default function EndgameFields({ control }) {
         render={({ field }) => (
           <FormItem>
             <FormLabel>Ascent Level</FormLabel>
-            <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <Select onValueChange={field.onChange} value={field.value}>
               <FormControl>
                 <SelectTrigger>
                   <SelectValue placeholder="Select Ascent Level" />
@@ -59,7 +59,11 @@ export default function EndgameFields({ control }) {
                 type="number"
                 placeholder="Enter Ascent Time"
                 {...field}
-                onChange={(e) => field.onChange(+e.target.value)}
+                onChange={(e) =>
+                  field.onChange(
+                    e.target.value === "" ? undefined : +e.target.value
+                  )
+                }
                 autoComplete="off"
               />
             </FormControl>

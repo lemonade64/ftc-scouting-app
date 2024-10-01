@@ -28,7 +28,11 @@ export default function MetadataFields({ control }) {
                 type="number"
                 placeholder="Enter Team Number"
                 {...field}
-                onChange={(e) => field.onChange(+e.target.value)}
+                onChange={(e) =>
+                  field.onChange(
+                    e.target.value === "" ? undefined : +e.target.value
+                  )
+                }
                 autoComplete="off"
               />
             </FormControl>
@@ -64,7 +68,11 @@ export default function MetadataFields({ control }) {
                 type="number"
                 placeholder="Enter Qualification Number"
                 {...field}
-                onChange={(e) => field.onChange(+e.target.value)}
+                onChange={(e) =>
+                  field.onChange(
+                    e.target.value === "" ? undefined : +e.target.value
+                  )
+                }
                 autoComplete="off"
               />
             </FormControl>
@@ -78,7 +86,7 @@ export default function MetadataFields({ control }) {
         render={({ field }) => (
           <FormItem>
             <FormLabel>Alliance Colour</FormLabel>
-            <Select onValueChange={field.onChange} defaultValue={field.value}>
+            <Select onValueChange={field.onChange} value={field.value}>
               <FormControl>
                 <SelectTrigger>
                   <SelectValue placeholder="Select Alliance Colour" />
