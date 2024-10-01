@@ -26,7 +26,7 @@ function DesktopNavigation({ isHome }) {
         <Link
           key={link.href}
           href={link.href}
-          className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+          className="text-sm font-medium text-foreground hover:text-primary transition-colors"
         >
           {link.name}
         </Link>

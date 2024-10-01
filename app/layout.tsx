@@ -88,7 +88,7 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
-          themes={["light", "dark", "green", "orange", "violet"]}
+          themes={["light", "dark", "saffron", "violet"]}
         >
           <Header />
           <RootProvider>{children}</RootProvider>

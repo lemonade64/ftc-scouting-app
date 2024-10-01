@@ -25,15 +25,15 @@ function FeatureSection() {
           )}
         >
           {index < 4 ? (
-            <div className="opacity-0 group-hover:opacity-100 transition duration-200 absolute inset-0 h-full w-full bg-gradient-to-t from-neutral-100 dark:from-neutral-800 to-transparent pointer-events-none" />
+            <div className="opacity-0 group-hover:opacity-100 transition duration-200 absolute inset-0 h-full w-full bg-gradient-to-t from-secondary to-transparent pointer-events-none" />
           ) : (
-            <div className="opacity-0 group-hover:opacity-100 transition duration-200 absolute inset-0 h-full w-full bg-gradient-to-b from-neutral-100 dark:from-neutral-800 to-transparent pointer-events-none" />
+            <div className="opacity-0 group-hover:opacity-100 transition duration-200 absolute inset-0 h-full w-full bg-gradient-to-b from-secondary to-transparent pointer-events-none" />
           )}
           <div className="mb-4 relative z-10 px-10">
             {getIcon(feature.title)}
           </div>
           <div className="text-lg font-bold mb-2 relative z-10 px-10">
-            <div className="absolute left-0 inset-y-0 h-6 group-hover:h-8 w-1 rounded-tr-full rounded-br-full group-hover:bg-black dark:group-hover:bg-white transition-all duration-200 origin-center" />
+            <div className="absolute left-0 inset-y-0 h-6 group-hover:h-8 w-1 rounded-tr-full rounded-br-full group-hover:bg-primary dark:group-hover:bg-white transition-all duration-200 origin-center" />
             <span className="group-hover:translate-x-2 transition duration-200 inline-block">
               {feature.title}
             </span>

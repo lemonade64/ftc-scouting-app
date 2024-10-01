@@ -239,7 +239,10 @@ export default function TeamAnalysis() {
                     <CartesianGrid />
                     <XAxis dataKey="name" />
                     <YAxis tickMargin={10} axisLine={true} />
-                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <ChartTooltip
+                      cursor={false}
+                      content={<ChartTooltipContent />}
+                    />
                     <Bar
                       dataKey="value"
                       fill="hsl(var(--chart-4))"
@@ -259,7 +262,10 @@ export default function TeamAnalysis() {
                     <CartesianGrid />
                     <XAxis dataKey="name" />
                     <YAxis tickMargin={10} axisLine={true} />
-                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <ChartTooltip
+                      cursor={false}
+                      content={<ChartTooltipContent />}
+                    />
                     <Bar
                       dataKey="value"
                       fill="hsl(var(--chart-4))"
@@ -294,7 +300,10 @@ export default function TeamAnalysis() {
                       }}
                     />
                     <Legend />
-                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <ChartTooltip
+                      cursor={false}
+                      content={<ChartTooltipContent />}
+                    />
                   </RadarChart>
                 </ChartContainer>
               </ResponsiveContainer>

@@ -26,14 +26,19 @@ export default function Footer() {
   const isDocs = pathname.includes("/docs");
 
   return (
-    <footer className={`${isDocs ? "hidden" : ""} border-t border-neutral-200`}>
+    <footer className={`${isDocs ? "hidden" : ""} border-t border-muted`}>
       <div className="container flex items-center justify-between h-16 px-4 mx-auto">
         <span className="text-sm font-medium">{siteConfig.name.default}</span>
         <div className="flex items-center space-x-4">
+          <Link href={siteConfig.links.repo} target="_blank">
+            <Button variant="ghost" size="icon">
+              <Github className="h-5 w-5" />
+            </Button>
+          </Link>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
-                <Paintbrush className="h-5 w-5" />
+                <Paintbrush className="h-5 w-5 text-primary" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
@@ -44,11 +49,6 @@ export default function Footer() {
               ))}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Link href={siteConfig.links.repo} target="_blank">
-            <Button variant="ghost" size="icon">
-              <Github className="h-5 w-5" />
-            </Button>
-          </Link>
         </div>
       </div>
     </footer>

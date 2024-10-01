@@ -189,7 +189,10 @@ export default function TeamComparison() {
                     <CartesianGrid vertical={true} />
                     <XAxis type="number" />
                     <YAxis dataKey="metric" type="category" />
-                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <ChartTooltip
+                      cursor={false}
+                      content={<ChartTooltipContent />}
+                    />
                     <Bar
                       dataKey="team1"
                       name={team1 ? `Team ${team1}` : "Team 1"}
@@ -214,7 +217,10 @@ export default function TeamComparison() {
                     <CartesianGrid vertical={true} />
                     <XAxis type="number" />
                     <YAxis dataKey="metric" type="category" />
-                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <ChartTooltip
+                      cursor={false}
+                      content={<ChartTooltipContent />}
+                    />
                     <Bar
                       dataKey="team1"
                       name={team1 ? `Team ${team1}` : "Team 1"}
@@ -238,7 +244,10 @@ export default function TeamComparison() {
                   <RadarChart data={radarData}>
                     <PolarGrid />
                     <PolarAngleAxis dataKey="metric" />
-                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <ChartTooltip
+                      cursor={false}
+                      content={<ChartTooltipContent />}
+                    />
                     <Radar
                       name={team1 ? `Team ${team1}` : "Team 1"}
                       dataKey="team1"

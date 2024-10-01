@@ -126,7 +126,7 @@ export default function TeleopFields({ control, setValue }) {
                 <div className="flex items-center space-x-3">
                   <Button
                     type="button"
-                    variant={isRunning ? "destructive" : "default"}
+                    variant="outline"
                     size="lg"
                     onClick={handleStartStop}
                   >
