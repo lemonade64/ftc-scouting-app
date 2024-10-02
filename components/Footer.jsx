@@ -28,7 +28,7 @@ export default function Footer() {
   return (
     <footer className={`${isDocs ? "hidden" : ""} border-t border-muted`}>
       <div className="container flex items-center justify-between h-16 px-4 mx-auto">
-        <span className="text-sm font-medium">{siteConfig.name.default}</span>
+        <span className="text-sm font-medium">{siteConfig.name.short}</span>
         <div className="flex items-center space-x-4">
           <Link href={siteConfig.links.repo} target="_blank">
             <Button variant="ghost" size="icon">
