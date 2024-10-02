@@ -21,7 +21,7 @@ function DesktopNavigation({ isHome }) {
   const links = headerLinks;
 
   return (
-    <nav className="hidden md:flex items-center space-x-6">
+    <nav className="flex items-center space-x-6">
       {links.map((link) => (
         <Link
           key={link.href}
@@ -96,7 +96,7 @@ export default function Navigation({ setIsModalOpen, isHome }) {
       </Link>
       <div className="flex items-center space-x-4">
         <DesktopNavigation isHome={isHome} />
-        <MobileNavigation setIsModalOpen={setIsModalOpen} isHome={isHome} />
+        {/* <MobileNavigation setIsModalOpen={setIsModalOpen} isHome={isHome} /> */}
       </div>
     </div>
   );
