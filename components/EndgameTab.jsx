@@ -21,7 +21,19 @@ const endgameChartConfig = {
   },
 };
 
-export default function EndgameTab({ currentTeamData }) {
+export default function EndgameTab({ currentTeamData = [] }) {
+  const ascentLevelDistribution = currentTeamData.reduce((acc, match) => {
+    acc[match.endgameAscentLevel] = (acc[match.endgameAscentLevel] || 0) + 1;
+    return acc;
+  }, {});
+
+  const ascentTimeData = currentTeamData
+    .sort((a, b) => a.qualificationNumber - b.qualificationNumber)
+    .map((match) => ({
+      match: match.qualificationNumber,
+      ascentTime: match.endgameAscentTime || 0,
+    }));
+
   return (
     <div className="grid gap-4 md:grid-cols-2">
       <Card>
@@ -30,11 +42,9 @@ export default function EndgameTab({ currentTeamData }) {
         </CardHeader>
         <CardContent>
           {renderPieChart(
-            currentTeamData.reduce((acc, match) => {
-              acc[match.endgameAscentLevel] =
-                (acc[match.endgameAscentLevel] || 0) + 1;
-              return acc;
-            }, {}),
+            Object.keys(ascentLevelDistribution).length > 0
+              ? ascentLevelDistribution
+              : { "No Data": 1 },
             endgameChartConfig
           )}
         </CardContent>
@@ -50,12 +60,11 @@ export default function EndgameTab({ currentTeamData }) {
               className="min-h-[300px]"
             >
               <AreaChart
-                data={currentTeamData
-                  .sort((a, b) => a.qualificationNumber - b.qualificationNumber)
-                  .map((match) => ({
-                    match: match.qualificationNumber,
-                    ascentTime: match.endgameAscentTime,
-                  }))}
+                data={
+                  ascentTimeData.length > 0
+                    ? ascentTimeData
+                    : [{ match: "No Data", ascentTime: 0 }]
+                }
               >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="match" />

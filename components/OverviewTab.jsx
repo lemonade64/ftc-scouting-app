@@ -1,8 +1,4 @@
-import {
-  calculateScores,
-  formatNumber,
-  renderPieChart,
-} from "@/lib/dashboardManager";
+import { calculateScores, formatNumber } from "@/lib/dashboardManager";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -14,6 +10,11 @@ import {
   Area,
   AreaChart,
   CartesianGrid,
+  Legend,
+  PolarAngleAxis,
+  PolarGrid,
+  Radar,
+  RadarChart,
   ResponsiveContainer,
   XAxis,
   YAxis,
@@ -39,7 +40,11 @@ const pieChartConfig = {
   },
 };
 
-export default function OverviewTab({ currentTeamData }) {
+const radarChartConfig = {
+  team: { label: "Team" },
+};
+
+export default function OverviewTab({ currentTeamData = [] }) {
   const averageScores = currentTeamData.reduce((acc, match) => {
     const scores = calculateScores(match);
     Object.keys(scores).forEach((key) => {
@@ -51,6 +56,19 @@ export default function OverviewTab({ currentTeamData }) {
   Object.keys(averageScores).forEach((key) => {
     averageScores[key] = averageScores[key] / (currentTeamData.length || 1);
   });
+
+  const performanceData = currentTeamData
+    .sort((a, b) => a.qualificationNumber - b.qualificationNumber)
+    .map((match) => ({
+      match: match.qualificationNumber,
+      score: calculateScores(match).totalScore,
+    }));
+
+  const radarData = [
+    { metric: "Auto Score", team: averageScores.autoScore || 0 },
+    { metric: "Teleop Score", team: averageScores.teleopScore || 0 },
+    { metric: "Endgame Score", team: averageScores.endgameScore || 0 },
+  ];
 
   return (
     <>
@@ -64,7 +82,7 @@ export default function OverviewTab({ currentTeamData }) {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {formatNumber(averageScores.totalScore)}
+              {formatNumber(averageScores.totalScore || 0)}
             </div>
           </CardContent>
         </Card>
@@ -77,7 +95,7 @@ export default function OverviewTab({ currentTeamData }) {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {formatNumber(averageScores.autoScore)}
+              {formatNumber(averageScores.autoScore || 0)}
             </div>
           </CardContent>
         </Card>
@@ -90,7 +108,7 @@ export default function OverviewTab({ currentTeamData }) {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {formatNumber(averageScores.teleopScore)}
+              {formatNumber(averageScores.teleopScore || 0)}
             </div>
           </CardContent>
         </Card>
@@ -103,31 +121,28 @@ export default function OverviewTab({ currentTeamData }) {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {formatNumber(averageScores.endgameScore)}
+              {formatNumber(averageScores.endgameScore || 0)}
             </div>
           </CardContent>
         </Card>
       </div>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-        <Card className="col-span-4">
+      <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+        <Card>
           <CardHeader>
             <CardTitle>Performance Across Qualifications</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height={300}>
               <ChartContainer
                 config={overviewChartConfig}
                 className="min-h-[300px]"
               >
                 <AreaChart
-                  data={currentTeamData
-                    .sort(
-                      (a, b) => a.qualificationNumber - b.qualificationNumber
-                    )
-                    .map((match) => ({
-                      match: match.qualificationNumber,
-                      score: calculateScores(match).totalScore,
-                    }))}
+                  data={
+                    performanceData.length > 0
+                      ? performanceData
+                      : [{ match: "No Data", score: 0 }]
+                  }
                 >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="match" />
@@ -148,19 +163,31 @@ export default function OverviewTab({ currentTeamData }) {
             </ResponsiveContainer>
           </CardContent>
         </Card>
-        <Card className="col-span-3">
+        <Card>
           <CardHeader>
-            <CardTitle>Average Score Distribution</CardTitle>
+            <CardTitle>Average Overall Performance</CardTitle>
           </CardHeader>
           <CardContent>
-            {renderPieChart(
-              {
-                Auto: averageScores.autoScore,
-                Teleop: averageScores.teleopScore,
-                Endgame: averageScores.endgameScore,
-              },
-              pieChartConfig
-            )}
+            <ResponsiveContainer width="100%" height={300}>
+              <ChartContainer config={radarChartConfig}>
+                <RadarChart data={radarData}>
+                  <PolarGrid />
+                  <PolarAngleAxis dataKey="metric" />
+                  <ChartTooltip
+                    cursor={false}
+                    content={<ChartTooltipContent />}
+                  />
+                  <Radar
+                    name="Team"
+                    dataKey="team"
+                    stroke="hsl(var(--chart-1))"
+                    fill="hsl(var(--chart-1))"
+                    fillOpacity={0.6}
+                  />
+                  <Legend />
+                </RadarChart>
+              </ChartContainer>
+            </ResponsiveContainer>
           </CardContent>
         </Card>
       </div>
