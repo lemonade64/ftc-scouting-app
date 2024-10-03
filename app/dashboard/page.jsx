@@ -15,7 +15,7 @@ import OverviewTab from "@/components/OverviewTab";
 import AutonomousTab from "@/components/AutonomousTab";
 import TeleopTab from "@/components/TeleopTab";
 import EndgameTab from "@/components/EndgameTab";
-import LoadingSkeleton from "@/components/LoadingSkeleton";
+import DashboardSkeleton from "@/components/DashboardSkeleton";
 
 export default function Dashboard() {
   const {
@@ -27,7 +27,7 @@ export default function Dashboard() {
   } = useTeamData();
 
   if (isLoading) {
-    return <LoadingSkeleton isLoading={isLoading} />;
+    return <DashboardSkeleton isLoading={isLoading} />;
   }
 
   return (

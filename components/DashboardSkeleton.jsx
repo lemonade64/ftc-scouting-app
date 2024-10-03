@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export default function LoadingSkeleton({ isLoading }) {
+export default function DashboardSkeleton({ isLoading }) {
   if (!isLoading) {
     return null;
   }
@@ -40,8 +40,8 @@ export default function LoadingSkeleton({ isLoading }) {
               </Card>
             ))}
           </div>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
-            <Card className="col-span-4">
+          <div className="grid gap-4 md:grid-cols-2">
+            <Card>
               <CardHeader>
                 <CardTitle>
                   <Skeleton className="h-6 w-[200px]" />
@@ -51,7 +51,7 @@ export default function LoadingSkeleton({ isLoading }) {
                 <Skeleton className="h-[300px] w-full" />
               </CardContent>
             </Card>
-            <Card className="col-span-3">
+            <Card>
               <CardHeader>
                 <CardTitle>
                   <Skeleton className="h-6 w-[200px]" />
@@ -64,24 +64,56 @@ export default function LoadingSkeleton({ isLoading }) {
           </div>
         </TabsContent>
 
-        {["auto", "teleop", "endgame"].map((tab) => (
-          <TabsContent key={tab} value={tab}>
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {[...Array(3)].map((_, index) => (
-                <Card key={index}>
-                  <CardHeader>
-                    <CardTitle>
-                      <Skeleton className="h-6 w-[150px]" />
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <Skeleton className="h-[300px] w-full" />
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-        ))}
+        <TabsContent value="auto">
+          <div className="grid gap-4 md:grid-cols-2">
+            {[...Array(4)].map((_, index) => (
+              <Card key={index}>
+                <CardHeader>
+                  <CardTitle>
+                    <Skeleton className="h-6 w-[150px]" />
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Skeleton className="h-[300px] w-full" />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="teleop">
+          <div className="grid gap-4 md:grid-cols-2">
+            {[...Array(4)].map((_, index) => (
+              <Card key={index}>
+                <CardHeader>
+                  <CardTitle>
+                    <Skeleton className="h-6 w-[150px]" />
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Skeleton className="h-[300px] w-full" />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="endgame">
+          <div className="grid gap-4 md:grid-cols-2">
+            {[...Array(2)].map((_, index) => (
+              <Card key={index}>
+                <CardHeader>
+                  <CardTitle>
+                    <Skeleton className="h-6 w-[150px]" />
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Skeleton className="h-[300px] w-full" />
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
       </Tabs>
     </div>
   );
