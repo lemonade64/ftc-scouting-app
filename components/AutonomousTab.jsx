@@ -35,11 +35,14 @@ const autoChartConfig = {
   },
 };
 
-const radarChartConfig = {
-  team: { label: "Team" },
-};
-
 export default function AutonomousTab({ currentTeamData = [] }) {
+  const teamNumber = currentTeamData[0]?.teamNumber || "";
+  const teamName = currentTeamData[0]?.teamName || "";
+
+  const radarChartConfig = {
+    [teamNumber]: { label: teamName },
+  };
+
   const preloadDistribution = currentTeamData.reduce((acc, match) => {
     acc[match.autoPreload] = (acc[match.autoPreload] || 0) + 1;
     return acc;
@@ -70,19 +73,19 @@ export default function AutonomousTab({ currentTeamData = [] }) {
   const radarData = [
     {
       metric: "Basket High",
-      team: getAverageData(currentTeamData, "autoBasketHigh") || 0,
+      [teamNumber]: getAverageData(currentTeamData, "autoBasketHigh") || 0,
     },
     {
       metric: "Basket Low",
-      team: getAverageData(currentTeamData, "autoBasketLow") || 0,
+      [teamNumber]: getAverageData(currentTeamData, "autoBasketLow") || 0,
     },
     {
       metric: "Chamber High",
-      team: getAverageData(currentTeamData, "autoChamberHigh") || 0,
+      [teamNumber]: getAverageData(currentTeamData, "autoChamberHigh") || 0,
     },
     {
       metric: "Chamber Low",
-      team: getAverageData(currentTeamData, "autoChamberLow") || 0,
+      [teamNumber]: getAverageData(currentTeamData, "autoChamberLow") || 0,
     },
   ];
 
@@ -103,8 +106,8 @@ export default function AutonomousTab({ currentTeamData = [] }) {
                   content={<ChartTooltipContent />}
                 />
                 <Radar
-                  name="Team"
-                  dataKey="team"
+                  name={teamName}
+                  dataKey={teamNumber}
                   stroke="hsl(var(--chart-1))"
                   fill="hsl(var(--chart-1))"
                   fillOpacity={0.6}

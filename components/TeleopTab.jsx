@@ -37,11 +37,14 @@ const teleopChartConfig = {
   },
 };
 
-const radarChartConfig = {
-  team: { label: "Team" },
-};
-
 export default function TeleopTab({ currentTeamData = [] }) {
+  const teamNumber = currentTeamData[0]?.teamNumber || "";
+  const teamName = currentTeamData[0]?.teamName || "";
+
+  const radarChartConfig = {
+    [teamNumber]: { label: teamName },
+  };
+
   const basketData = [
     {
       name: "High",
@@ -78,19 +81,19 @@ export default function TeleopTab({ currentTeamData = [] }) {
   const radarData = [
     {
       metric: "Basket High",
-      team: getAverageData(currentTeamData, "teleopBasketHigh") || 0,
+      [teamNumber]: getAverageData(currentTeamData, "teleopBasketHigh") || 0,
     },
     {
       metric: "Basket Low",
-      team: getAverageData(currentTeamData, "teleopBasketLow") || 0,
+      [teamNumber]: getAverageData(currentTeamData, "teleopBasketLow") || 0,
     },
     {
       metric: "Chamber High",
-      team: getAverageData(currentTeamData, "teleopChamberHigh") || 0,
+      [teamNumber]: getAverageData(currentTeamData, "teleopChamberHigh") || 0,
     },
     {
       metric: "Chamber Low",
-      team: getAverageData(currentTeamData, "teleopChamberLow") || 0,
+      [teamNumber]: getAverageData(currentTeamData, "teleopChamberLow") || 0,
     },
   ];
 
@@ -111,8 +114,8 @@ export default function TeleopTab({ currentTeamData = [] }) {
                   content={<ChartTooltipContent />}
                 />
                 <Radar
-                  name="Team"
-                  dataKey="team"
+                  name={teamName}
+                  dataKey={teamNumber}
                   stroke="hsl(var(--chart-1))"
                   fill="hsl(var(--chart-1))"
                   fillOpacity={0.6}

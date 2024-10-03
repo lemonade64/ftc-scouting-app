@@ -40,11 +40,14 @@ const pieChartConfig = {
   },
 };
 
-const radarChartConfig = {
-  team: { label: "Team" },
-};
-
 export default function OverviewTab({ currentTeamData = [] }) {
+  const teamNumber = currentTeamData[0]?.teamNumber || "";
+  const teamName = currentTeamData[0]?.teamName || "";
+
+  const radarChartConfig = {
+    [teamNumber]: { label: teamName },
+  };
+
   const averageScores = currentTeamData.reduce((acc, match) => {
     const scores = calculateScores(match);
     Object.keys(scores).forEach((key) => {
@@ -62,12 +65,12 @@ export default function OverviewTab({ currentTeamData = [] }) {
     .map((match) => ({
       match: match.qualificationNumber,
       score: calculateScores(match).totalScore,
-    }));
+    })) || [{ match: "No Data", score: 0 }];
 
   const radarData = [
-    { metric: "Auto Score", team: averageScores.autoScore || 0 },
-    { metric: "Teleop Score", team: averageScores.teleopScore || 0 },
-    { metric: "Endgame Score", team: averageScores.endgameScore || 0 },
+    { metric: "Auto Score", [teamNumber]: averageScores.autoScore || 0 },
+    { metric: "Teleop Score", [teamNumber]: averageScores.teleopScore || 0 },
+    { metric: "Endgame Score", [teamNumber]: averageScores.endgameScore || 0 },
   ];
 
   return (
@@ -137,13 +140,7 @@ export default function OverviewTab({ currentTeamData = [] }) {
                 config={overviewChartConfig}
                 className="min-h-[300px]"
               >
-                <AreaChart
-                  data={
-                    performanceData.length > 0
-                      ? performanceData
-                      : [{ match: "No Data", score: 0 }]
-                  }
-                >
+                <AreaChart data={performanceData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="match" />
                   <YAxis />
@@ -178,8 +175,8 @@ export default function OverviewTab({ currentTeamData = [] }) {
                     content={<ChartTooltipContent />}
                   />
                   <Radar
-                    name="Team"
-                    dataKey="team"
+                    name={teamName}
+                    dataKey={teamNumber}
                     stroke="hsl(var(--chart-1))"
                     fill="hsl(var(--chart-1))"
                     fillOpacity={0.6}
