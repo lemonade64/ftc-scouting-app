@@ -28,18 +28,6 @@ const overviewChartConfig = {
   },
 };
 
-const pieChartConfig = {
-  Auto: {
-    label: "Auto",
-  },
-  Teleop: {
-    label: "Teleop",
-  },
-  Endgame: {
-    label: "Endgame",
-  },
-};
-
 export default function OverviewTab({ currentTeamData = [] }) {
   const teamNumber = currentTeamData[0]?.teamNumber || "";
   const teamName = currentTeamData[0]?.teamName || "";
