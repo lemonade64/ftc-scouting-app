@@ -76,8 +76,8 @@ export default function EndgameTab({ currentTeamData = [] }) {
                 <Area
                   type="monotone"
                   dataKey="ascentTime"
-                  stroke="hsl(var(--chart-4))"
-                  fill="hsl(var(--chart-4))"
+                  stroke="hsl(var(--chart-2))"
+                  fill="hsl(var(--chart-2))"
                   fillOpacity={0.3}
                 />
               </AreaChart>
