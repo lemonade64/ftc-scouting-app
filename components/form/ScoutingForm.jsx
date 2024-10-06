@@ -6,10 +6,10 @@ import { Form } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 
-import MetadataFields from "@/components/MetadataFields";
-import AutonomousFields from "@/components/AutonomousFields";
-import TeleopFields from "@/components/TeleopFields";
-import EndgameFields from "@/components/EndgameFields";
+import MetadataFields from "./MetadataFields";
+import AutonomousFields from "./AutonomousFields";
+import TeleopFields from "./TeleopFields";
+import EndgameFields from "./EndgameFields";
 
 const FORM_SECTIONS = ["Metadata", "Auto", "Teleop", "Endgame"];
 

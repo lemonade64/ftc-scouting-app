@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/card";
 import { toast } from "sonner";
 
-import ScoutingForm from "@/components/ScoutingForm";
+import ScoutingForm from "@/components/form/ScoutingForm";
 
 export default function OnlineForm() {
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);

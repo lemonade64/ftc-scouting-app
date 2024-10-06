@@ -30,7 +30,7 @@ import { toast } from "sonner";
 
 import { FileTextIcon, ScanIcon, UploadIcon } from "lucide-react";
 
-import DataEditor from "@/components/DataEditor";
+import DataEditor from "./DataEditor";
 
 const submissionsArraySchema = z.array(formSchema);
 

@@ -37,7 +37,7 @@ import { toast } from "sonner";
 
 import { Upload, TrashIcon } from "lucide-react";
 
-import ScoutingForm from "@/components/ScoutingForm";
+import ScoutingForm from "@/components/form/ScoutingForm";
 
 export default function OfflineForm() {
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);

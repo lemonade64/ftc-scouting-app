@@ -2,6 +2,8 @@
 
 import { useState, useMemo } from "react";
 
+import { calculateScores } from "@/lib/dashboardManager";
+
 import {
   Select,
   SelectContent,
@@ -11,11 +13,10 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import OverviewComparison from "@/components/OverviewComparison";
-import AutonomousComparison from "@/components/AutonomousComparison";
-import TeleopComparison from "@/components/TeleopComparison";
-import EndgameComparison from "@/components/EndgameComparison";
-import { calculateScores } from "@/lib/dashboardManager";
+import OverviewComparison from "./OverviewComparison";
+import AutonomousComparison from "./AutonomousComparison";
+import TeleopComparison from "./TeleopComparison";
+import EndgameComparison from "./EndgameComparison";
 
 export default function TeamComparison({ teamData, currentTeam }) {
   const [comparisonTeam, setComparisonTeam] = useState("");

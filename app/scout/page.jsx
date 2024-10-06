@@ -1,6 +1,6 @@
-import OnlineForm from "@/components/OnlineForm";
-import OfflineForm from "@/components/OfflineForm";
-import DataImporter from "@/components/DataImporter";
+import OnlineForm from "@/components/form/OnlineForm";
+import OfflineForm from "@/components/form/OfflineForm";
+import DataImporter from "@/components/form/DataImporter";
 
 export default function Scout() {
   return (

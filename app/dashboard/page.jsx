@@ -11,12 +11,12 @@ import {
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import OverviewTab from "@/components/OverviewTab";
-import AutonomousTab from "@/components/AutonomousTab";
-import TeleopTab from "@/components/TeleopTab";
-import EndgameTab from "@/components/EndgameTab";
-import TeamComparison from "@/components/TeamComparison";
-import DashboardSkeleton from "@/components/DashboardSkeleton";
+import OverviewDashboard from "@/components/dashboard/OverviewDashboard";
+import AutonomousDashboard from "@/components/dashboard/AutonomousDashboard";
+import TeleopDashboard from "@/components/dashboard/TeleopDashboard";
+import EndgameDashboard from "@/components/dashboard/EndgameDashboard";
+import DashboardSkeleton from "@/components/dashboard/DashboardSkeleton";
+import TeamComparison from "@/components/dashboard/TeamComparison";
 
 export default function Dashboard() {
   const {
@@ -65,19 +65,19 @@ export default function Dashboard() {
           </TabsList>
 
           <TabsContent value="overview">
-            <OverviewTab currentTeamData={currentTeamData} />
+            <OverviewDashboard currentTeamData={currentTeamData} />
           </TabsContent>
 
           <TabsContent value="auto">
-            <AutonomousTab currentTeamData={currentTeamData} />
+            <AutonomousDashboard currentTeamData={currentTeamData} />
           </TabsContent>
 
           <TabsContent value="teleop">
-            <TeleopTab currentTeamData={currentTeamData} />
+            <TeleopDashboard currentTeamData={currentTeamData} />
           </TabsContent>
 
           <TabsContent value="endgame">
-            <EndgameTab currentTeamData={currentTeamData} />
+            <EndgameDashboard currentTeamData={currentTeamData} />
           </TabsContent>
         </Tabs>
       </>
