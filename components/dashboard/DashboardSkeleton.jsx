@@ -41,8 +41,8 @@ export function DashboardSkeleton({ isLoading }) {
   return (
     <div className="container mx-auto p-4 flex flex-col gap-y-8">
       {[...Array(2)].map((_, index) => (
-        <>
-          <div key={index} className="flex justify-between items-center mb-6">
+        <div key={`dashboard${index}`}>
+          <div className="flex justify-between items-center mb-6">
             <Skeleton className="h-9 w-64" />
             <div className="flex items-center space-x-2">
               <Skeleton className="h-10 w-[100px] min-[425px]:w-[200px] sm:w-[200px]" />
@@ -59,8 +59,8 @@ export function DashboardSkeleton({ isLoading }) {
 
             <TabsContent value="overview">
               <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
-                {[...Array(4)].map((_, index) => (
-                  <Card key={index}>
+                {[...Array(4)].map((_, cardIndex) => (
+                  <Card key={`overviewCard${cardIndex}`}>
                     <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                       <CardTitle className="text-sm font-medium">
                         <Skeleton className="h-4 w-[100px]" />
@@ -99,8 +99,8 @@ export function DashboardSkeleton({ isLoading }) {
 
             <TabsContent value="auto">
               <div className="grid gap-4 md:grid-cols-2">
-                {[...Array(4)].map((_, index) => (
-                  <Card key={index}>
+                {[...Array(4)].map((_, cardIndex) => (
+                  <Card key={`autoCard${cardIndex}`}>
                     <CardHeader>
                       <CardTitle>
                         <Skeleton className="h-6 w-[150px]" />
@@ -116,8 +116,8 @@ export function DashboardSkeleton({ isLoading }) {
 
             <TabsContent value="teleop">
               <div className="grid gap-4 md:grid-cols-2">
-                {[...Array(4)].map((_, index) => (
-                  <Card key={index}>
+                {[...Array(4)].map((_, cardIndex) => (
+                  <Card key={`teleopCard${cardIndex}`}>
                     <CardHeader>
                       <CardTitle>
                         <Skeleton className="h-6 w-[150px]" />
@@ -133,8 +133,8 @@ export function DashboardSkeleton({ isLoading }) {
 
             <TabsContent value="endgame">
               <div className="grid gap-4 md:grid-cols-2">
-                {[...Array(2)].map((_, index) => (
-                  <Card key={index}>
+                {[...Array(2)].map((_, cardIndex) => (
+                  <Card key={`endgameCard${cardIndex}`}>
                     <CardHeader>
                       <CardTitle>
                         <Skeleton className="h-6 w-[150px]" />
@@ -148,7 +148,7 @@ export function DashboardSkeleton({ isLoading }) {
               </div>
             </TabsContent>
           </Tabs>
-        </>
+        </div>
       ))}
     </div>
   );
