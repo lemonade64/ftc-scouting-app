@@ -1,9 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-
 import { calculateScores } from "@/lib/dashboardManager";
-
 import {
   Select,
   SelectContent,
@@ -12,7 +10,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
 import OverviewComparison from "./OverviewComparison";
 import AutonomousComparison from "./AutonomousComparison";
 import TeleopComparison from "./TeleopComparison";
@@ -79,6 +76,10 @@ export default function TeamComparison({ teamData, currentTeam }) {
     [currentTeam, comparisonTeam]
   );
 
+  const uniqueTeamNumbers = useMemo(() => {
+    return new Set(teamData.map((team) => team.teamNumber.toString()));
+  }, [teamData]);
+
   return (
     <>
       <div className="flex items-center justify-between mb-6 pt-10">
@@ -89,16 +90,18 @@ export default function TeamComparison({ teamData, currentTeam }) {
               <SelectValue placeholder="Select Team" />
             </SelectTrigger>
             <SelectContent>
-              {teamData
-                .filter((team) => team.teamNumber.toString() !== currentTeam)
-                .map((team) => (
-                  <SelectItem
-                    key={team.teamNumber}
-                    value={team.teamNumber.toString()}
-                  >
-                    Team {team.teamNumber} - {team.teamName || "Unknown"}
-                  </SelectItem>
-                ))}
+              {Array.from(uniqueTeamNumbers)
+                .filter((teamNumber) => teamNumber !== currentTeam)
+                .map((teamNumber) => {
+                  const team = teamData.find(
+                    (t) => t.teamNumber.toString() === teamNumber
+                  );
+                  return (
+                    <SelectItem key={teamNumber} value={teamNumber}>
+                      Team {teamNumber} - {team?.teamName || "Unknown"}
+                    </SelectItem>
+                  );
+                })}
             </SelectContent>
           </Select>
         </div>
