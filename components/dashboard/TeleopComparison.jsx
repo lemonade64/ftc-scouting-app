@@ -36,14 +36,15 @@ export default function TeleopComparison({
       [comparisonTeam]: getAverageData(comparisonTeamData, "teleopBasketHigh"),
     },
     {
-      metric: "Basket Low",
-      [currentTeam]: getAverageData(currentTeamData, "teleopBasketLow"),
-      [comparisonTeam]: getAverageData(comparisonTeamData, "teleopBasketLow"),
-    },
-    {
       metric: "Chamber High",
       [currentTeam]: getAverageData(currentTeamData, "teleopChamberHigh"),
       [comparisonTeam]: getAverageData(comparisonTeamData, "teleopChamberHigh"),
+    },
+
+    {
+      metric: "Basket Low",
+      [currentTeam]: getAverageData(currentTeamData, "teleopBasketLow"),
+      [comparisonTeam]: getAverageData(comparisonTeamData, "teleopBasketLow"),
     },
     {
       metric: "Chamber Low",

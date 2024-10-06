@@ -34,14 +34,14 @@ export default function AutonomousComparison({
       [comparisonTeam]: getAverageData(comparisonTeamData, "autoBasketHigh"),
     },
     {
-      metric: "Basket Low",
-      [currentTeam]: getAverageData(currentTeamData, "autoBasketLow"),
-      [comparisonTeam]: getAverageData(comparisonTeamData, "autoBasketLow"),
-    },
-    {
       metric: "Chamber High",
       [currentTeam]: getAverageData(currentTeamData, "autoChamberHigh"),
       [comparisonTeam]: getAverageData(comparisonTeamData, "autoChamberHigh"),
+    },
+    {
+      metric: "Basket Low",
+      [currentTeam]: getAverageData(currentTeamData, "autoBasketLow"),
+      [comparisonTeam]: getAverageData(comparisonTeamData, "autoBasketLow"),
     },
     {
       metric: "Chamber Low",
