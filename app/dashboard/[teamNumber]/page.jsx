@@ -1,12 +1,31 @@
 "use client";
 
+import { useCallback, useState, useRef } from "react";
 import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
 
 import { useTeamData } from "@/hooks/useTeamData";
+import { toPng } from "html-to-image";
 
 import { Button } from "@/components/ui/button";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "sonner";
+import { QRCodeSVG } from "qrcode.react";
+
+import { Copy, Download, QrCode } from "lucide-react";
 
 import OverviewDashboard from "@/components/dashboard/OverviewDashboard";
 import AutonomousDashboard from "@/components/dashboard/AutonomousDashboard";
@@ -19,54 +38,146 @@ export default function TeamDashboard() {
   const params = useParams();
   const teamNumber = params.teamNumber;
   const { teamData, isLoading } = useTeamData();
+  const [showQRModal, setShowQRModal] = useState(false);
+  const [qrCodeData, setQrCodeData] = useState("");
+  const [activeTab, setActiveTab] = useState("overview");
+  const dashboardRef = useRef(null);
+
+  const currentTeamData =
+    teamData?.filter((team) => team.teamNumber.toString() === teamNumber) || [];
+
+  const exportJSON = useCallback(() => {
+    const dataStr = JSON.stringify(currentTeamData, null, 2);
+    navigator.clipboard.writeText(dataStr).then(() => {
+      toast.success("JSON Copied", {
+        description: `Team ${teamNumber}'s Data`,
+      });
+    });
+  }, [currentTeamData, teamNumber]);
+
+  const handleQRCode = useCallback(() => {
+    const jsonData = JSON.stringify(currentTeamData);
+    setQrCodeData(jsonData);
+
+    toast.promise(new Promise((resolve) => setTimeout(resolve, 2000)), {
+      loading: "Generating QR Code...",
+      success: () => {
+        setShowQRModal(true);
+        return "QR Code Generated";
+      },
+      error: "Failed to Generate QR Code",
+    });
+  }, [currentTeamData]);
+
+  const downloadAsImage = useCallback(() => {
+    const activeTabContent = dashboardRef.current?.querySelector(
+      `[data-state="active"]`
+    );
+    if (!activeTabContent) {
+      toast.error("Failed to Capture Image");
+      return;
+    }
+
+    toPng(activeTabContent, { cacheBust: true })
+      .then((dataUrl) => {
+        const link = document.createElement("a");
+        link.download = `Team_${teamNumber}'s_Dashboard.png`;
+        link.href = dataUrl;
+        link.click();
+        toast.success("Dashboard Image Captured", {
+          description: `${
+            activeTab.charAt(0).toUpperCase() + activeTab.slice(1)
+          } Image Downloaded`,
+        });
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Failed to Download Image");
+      });
+  }, [teamNumber, activeTab]);
 
   if (isLoading) {
     return <DashboardSkeleton isLoading={isLoading} />;
   }
-
-  const currentTeamData = teamData.filter(
-    (team) => team.teamNumber.toString() === teamNumber
-  );
 
   if (currentTeamData.length === 0) {
     return notFound();
   }
 
   return (
-    <div className="container mx-auto p-4 mb-10 flex flex-col">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Team {teamNumber} Dashboard</h1>
-        <Button variant="ghost">
-          <Link href="/dashboard">Back</Link>
-        </Button>
-      </div>
+    <ContextMenu>
+      <ContextMenuTrigger className="flex flex-col">
+        <div className="container mx-auto p-4 mb-10 flex flex-col">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-3xl font-bold">Team {teamNumber} Dashboard</h1>
+            <Button variant="ghost" asChild>
+              <Link href="/dashboard">Back to Dashboard</Link>
+            </Button>
+          </div>
 
-      <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="auto">Auto</TabsTrigger>
-          <TabsTrigger value="teleop">Teleop</TabsTrigger>
-          <TabsTrigger value="endgame">Endgame</TabsTrigger>
-        </TabsList>
+          <Tabs
+            defaultValue="overview"
+            className="space-y-4"
+            onValueChange={setActiveTab}
+          >
+            <TabsList className="grid w-full grid-cols-4">
+              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="auto">Auto</TabsTrigger>
+              <TabsTrigger value="teleop">Teleop</TabsTrigger>
+              <TabsTrigger value="endgame">Endgame</TabsTrigger>
+            </TabsList>
 
-        <TabsContent value="overview">
-          <OverviewDashboard currentTeamData={currentTeamData} />
-        </TabsContent>
+            <div ref={dashboardRef}>
+              <TabsContent value="overview">
+                <OverviewDashboard currentTeamData={currentTeamData} />
+              </TabsContent>
 
-        <TabsContent value="auto">
-          <AutonomousDashboard currentTeamData={currentTeamData} />
-        </TabsContent>
+              <TabsContent value="auto">
+                <AutonomousDashboard currentTeamData={currentTeamData} />
+              </TabsContent>
 
-        <TabsContent value="teleop">
-          <TeleopDashboard currentTeamData={currentTeamData} />
-        </TabsContent>
+              <TabsContent value="teleop">
+                <TeleopDashboard currentTeamData={currentTeamData} />
+              </TabsContent>
 
-        <TabsContent value="endgame">
-          <EndgameDashboard currentTeamData={currentTeamData} />
-        </TabsContent>
-      </Tabs>
+              <TabsContent value="endgame">
+                <EndgameDashboard currentTeamData={currentTeamData} />
+              </TabsContent>
+            </div>
+          </Tabs>
 
-      <TeamComparison teamData={teamData} currentTeam={teamNumber} />
-    </div>
+          <TeamComparison teamData={teamData} currentTeam={teamNumber} />
+        </div>
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuItem onSelect={exportJSON}>
+          <Copy className="mr-2 h-4 w-4" />
+          Copy JSON
+        </ContextMenuItem>
+        <ContextMenuItem onSelect={handleQRCode}>
+          <QrCode className="mr-2 h-4 w-4" />
+          Generate QR Code
+        </ContextMenuItem>
+        <ContextMenuItem onSelect={downloadAsImage}>
+          <Download className="mr-2 h-4 w-4" />
+          Download as Image
+        </ContextMenuItem>
+      </ContextMenuContent>
+
+      <Dialog open={showQRModal} onOpenChange={setShowQRModal}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>QR Code</DialogTitle>
+            <DialogDescription>Scan to Access Team Data</DialogDescription>
+          </DialogHeader>
+          <div className="flex items-center justify-center py-6">
+            <QRCodeSVG value={qrCodeData} size={256} />
+          </div>
+          <div className="flex justify-center">
+            <Button onClick={() => setShowQRModal(false)}>Close</Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </ContextMenu>
   );
 }
