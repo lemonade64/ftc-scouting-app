@@ -1,4 +1,4 @@
-import { getAverageData, renderPieChart } from "@/lib/dashboardManager";
+import { getAverageData } from "@/lib/dashboardManager";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -47,6 +47,12 @@ export default function AutonomousTab({ currentTeamData = [] }) {
     acc[match.autoPreload] = (acc[match.autoPreload] || 0) + 1;
     return acc;
   }, {});
+
+  const preloadData = [
+    { name: "Specimen", count: preloadDistribution["Specimen"] || 0 },
+    { name: "Sample", count: preloadDistribution["Sample"] || 0 },
+    { name: "Nothing", count: preloadDistribution["Nothing"] || 0 },
+  ];
 
   const basketData = [
     {
@@ -123,12 +129,24 @@ export default function AutonomousTab({ currentTeamData = [] }) {
           <CardTitle>Preload Distribution</CardTitle>
         </CardHeader>
         <CardContent>
-          {renderPieChart(
-            Object.keys(preloadDistribution).length > 0
-              ? preloadDistribution
-              : { "No Data": 1 },
-            autoChartConfig
-          )}
+          <ResponsiveContainer width="100%" height={300}>
+            <ChartContainer config={autoChartConfig} className="min-h-[300px]">
+              <BarChart data={preloadData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <ChartTooltip
+                  content={<ChartTooltipContent />}
+                  cursor={false}
+                />
+                <Bar
+                  dataKey="count"
+                  fill="hsl(var(--chart-3))"
+                  radius={[5, 5, 0, 0]}
+                />
+              </BarChart>
+            </ChartContainer>
+          </ResponsiveContainer>
         </CardContent>
       </Card>
       <Card>
