@@ -26,11 +26,11 @@ const teleopChartConfig = {
   teleopBasketHigh: {
     label: "Basket High",
   },
-  teleopBasketLow: {
-    label: "Basket Low",
-  },
   teleopChamberHigh: {
     label: "Chamber High",
+  },
+  teleopBasketLow: {
+    label: "Basket Low",
   },
   teleopChamberLow: {
     label: "Chamber Low",
@@ -84,12 +84,12 @@ export default function TeleopTab({ currentTeamData = [] }) {
       [teamNumber]: getAverageData(currentTeamData, "teleopBasketHigh") || 0,
     },
     {
-      metric: "Basket Low",
-      [teamNumber]: getAverageData(currentTeamData, "teleopBasketLow") || 0,
-    },
-    {
       metric: "Chamber High",
       [teamNumber]: getAverageData(currentTeamData, "teleopChamberHigh") || 0,
+    },
+    {
+      metric: "Basket Low",
+      [teamNumber]: getAverageData(currentTeamData, "teleopBasketLow") || 0,
     },
     {
       metric: "Chamber Low",

@@ -24,11 +24,11 @@ const autoChartConfig = {
   autoBasketHigh: {
     label: "Basket High",
   },
-  autoBasketLow: {
-    label: "Basket Low",
-  },
   autoChamberHigh: {
     label: "Chamber High",
+  },
+  autoBasketLow: {
+    label: "Basket Low",
   },
   autoChamberLow: {
     label: "Chamber Low",
@@ -76,12 +76,12 @@ export default function AutonomousTab({ currentTeamData = [] }) {
       [teamNumber]: getAverageData(currentTeamData, "autoBasketHigh") || 0,
     },
     {
-      metric: "Basket Low",
-      [teamNumber]: getAverageData(currentTeamData, "autoBasketLow") || 0,
-    },
-    {
       metric: "Chamber High",
       [teamNumber]: getAverageData(currentTeamData, "autoChamberHigh") || 0,
+    },
+    {
+      metric: "Basket Low",
+      [teamNumber]: getAverageData(currentTeamData, "autoBasketLow") || 0,
     },
     {
       metric: "Chamber Low",
