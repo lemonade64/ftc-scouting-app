@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  title: siteConfig.name.short,
+  metadataBase: new URL("https://ftc-scouting-app.vercel.app/"),
+  alternates: {
+    canonical: "/",
+  },
+  title: siteConfig.name.default,
   description: siteConfig.description,
   applicationName: siteConfig.name.default,
   authors: [{ name: siteConfig.creator.name, url: siteConfig.creator.links }],
