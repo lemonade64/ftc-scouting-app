@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://ftc-scouting-app.vercel.app/"),
+  metadataBase: new URL("https://ftc-scouting-app.vercel.app"),
   alternates: {
     canonical: "/",
   },
@@ -23,15 +23,15 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  manifest: `${siteConfig.links.url}/manifest.webmanifest`,
+  manifest: "/manifest.webmanifest",
   openGraph: {
     title: siteConfig.name.default,
     description: siteConfig.description,
-    url: `${siteConfig.links.url}/opengraph-image.png`,
+    url: "/opengraph-image.png",
     siteName: siteConfig.name.default,
     images: [
       {
-        url: `${siteConfig.links.url}/opengraph-image.png`,
+        url: "/opengraph-image.png",
         width: 1200,
         height: 630,
       },
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteConfig.name.default,
     description: siteConfig.description,
-    images: [`${siteConfig.links.url}/opengraph-image.png`],
+    images: ["/opengraph-image.png"],
   },
   abstract: siteConfig.description,
   category: "technology",
