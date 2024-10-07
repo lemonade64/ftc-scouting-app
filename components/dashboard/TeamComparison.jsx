@@ -108,7 +108,7 @@ export default function TeamComparison({ teamData, currentTeam }) {
       </div>
       {comparisonTeam && (
         <Tabs defaultValue="overview" className="space-y-4">
-          <TabsList>
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="auto">Auto</TabsTrigger>
             <TabsTrigger value="teleop">Teleop</TabsTrigger>
