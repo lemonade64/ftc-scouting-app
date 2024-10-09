@@ -1,5 +1,4 @@
 import React from "react";
-import { getAverageData } from "@/lib/dashboardManager";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartContainer,
@@ -13,115 +12,108 @@ import {
   BarChart,
   CartesianGrid,
   Legend,
-  PolarAngleAxis,
-  PolarGrid,
-  Radar,
-  RadarChart,
   ResponsiveContainer,
   XAxis,
   YAxis,
 } from "recharts";
 
-export default function TeleopDashboard({ currentTeamData, chartConfig }) {
-  const currentTeam = currentTeamData[0]?.teamNumber?.toString() || "Unknown";
+const endgameChartConfig = {
+  ascentTime: {
+    label: "Time",
+  },
+  high: {
+    label: "High",
+    color: "hsl(var(--chart-1))",
+  },
+  low: {
+    label: "Low",
+    color: "hsl(var(--chart-2))",
+  },
+  park: {
+    label: "Park",
+    color: "hsl(var(--chart-3))",
+  },
+  nothing: {
+    label: "Nothing",
+    color: "hsl(var(--chart-4))",
+  },
+};
 
-  const radarData = [
-    {
-      metric: "Basket High",
-      [currentTeam]: getAverageData(currentTeamData, "teleopBasketHigh"),
-    },
-    {
-      metric: "Chamber High",
-      [currentTeam]: getAverageData(currentTeamData, "teleopChamberHigh"),
-    },
-    {
-      metric: "Basket Low",
-      [currentTeam]: getAverageData(currentTeamData, "teleopBasketLow"),
-    },
-    {
-      metric: "Chamber Low",
-      [currentTeam]: getAverageData(currentTeamData, "teleopChamberLow"),
-    },
+export default function EndgameTab({ currentTeamData = [] }) {
+  const ascentLevelDistribution = currentTeamData.reduce((acc, match) => {
+    const level = match.endgameAscentLevel.toLowerCase();
+    acc[level] = (acc[level] || 0) + 1;
+    return acc;
+  }, {});
+
+  const ascentLevelData = [
+    { name: "High", count: ascentLevelDistribution.high || 0 },
+    { name: "Low", count: ascentLevelDistribution.low || 0 },
+    { name: "Park", count: ascentLevelDistribution.park || 0 },
+    { name: "Nothing", count: ascentLevelDistribution.nothing || 0 },
   ];
 
-  const basketData = [
-    {
-      name: "High",
-      [currentTeam]: getAverageData(currentTeamData, "teleopBasketHigh"),
-    },
-    {
-      name: "Low",
-      [currentTeam]: getAverageData(currentTeamData, "teleopBasketLow"),
-    },
-  ];
-
-  const chamberData = [
-    {
-      name: "High",
-      [currentTeam]: getAverageData(currentTeamData, "teleopChamberHigh"),
-    },
-    {
-      name: "Low",
-      [currentTeam]: getAverageData(currentTeamData, "teleopChamberLow"),
-    },
-  ];
-
-  const cycleTimeData = currentTeamData
+  const ascentTimeData = currentTeamData
     .sort((a, b) => a.qualificationNumber - b.qualificationNumber)
     .map((match) => ({
-      match: `${match.qualificationNumber}`,
-      cycleTime:
-        match.teleopCycleTimes.reduce((sum, time) => sum + time, 0) /
-        match.teleopCycleTimes.length,
+      match: match.qualificationNumber,
+      ascentTime: match.endgameAscentTime || 0,
     }));
 
-  const defaultChartConfig = {
-    label: "Team " + currentTeam,
-    color: "hsl(var(--chart-1))",
-  };
-
-  const teamChartConfig =
-    chartConfig && currentTeam in chartConfig
-      ? chartConfig[currentTeam]
-      : defaultChartConfig;
-
   return (
-    <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+    <div className="grid gap-4 md:grid-cols-2">
       <Card>
         <CardHeader>
-          <CardTitle>Teleop Overview</CardTitle>
+          <CardTitle>Ascent Level Distribution</CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
-            <ChartContainer config={{ [currentTeam]: teamChartConfig }}>
-              <RadarChart data={radarData}>
-                <PolarGrid />
-                <PolarAngleAxis dataKey="metric" />
+            <ChartContainer config={endgameChartConfig}>
+              <BarChart data={ascentLevelData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
                 <ChartTooltip
-                  cursor={false}
                   content={<ChartTooltipContent />}
+                  cursor={false}
                 />
-                <Radar
-                  name={teamChartConfig.label}
-                  dataKey={currentTeam}
-                  stroke={teamChartConfig.color}
-                  fill={teamChartConfig.color}
-                  fillOpacity={0.6}
-                />
+                <Bar
+                  dataKey="count"
+                  fill="hsl(var(--chart-1))"
+                  radius={[4, 4, 0, 0]}
+                >
+                  {ascentLevelData.map((entry, index) => (
+                    <Bar
+                      key={`bar-${index}`}
+                      dataKey="count"
+                      fill={endgameChartConfig[entry.name.toLowerCase()].color}
+                      name={entry.name}
+                    />
+                  ))}
+                </Bar>
                 <Legend />
-              </RadarChart>
+              </BarChart>
             </ChartContainer>
           </ResponsiveContainer>
         </CardContent>
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>Average Cycle Time per Qualification</CardTitle>
+          <CardTitle>Ascent Time</CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
-            <ChartContainer config={{ [currentTeam]: teamChartConfig }}>
-              <AreaChart data={cycleTimeData}>
+            <ChartContainer
+              config={endgameChartConfig}
+              className="min-h-[300px]"
+            >
+              <AreaChart
+                data={
+                  ascentTimeData.length > 0
+                    ? ascentTimeData
+                    : [{ match: "No Data", ascentTime: 0 }]
+                }
+              >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="match" />
                 <YAxis />
@@ -131,67 +123,12 @@ export default function TeleopDashboard({ currentTeamData, chartConfig }) {
                 />
                 <Area
                   type="monotone"
-                  dataKey="cycleTime"
-                  name={teamChartConfig.label}
-                  stroke={teamChartConfig.color}
-                  fill={teamChartConfig.color}
+                  dataKey="ascentTime"
+                  stroke="hsl(var(--chart-2))"
+                  fill="hsl(var(--chart-2))"
                   fillOpacity={0.3}
                 />
               </AreaChart>
-            </ChartContainer>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Average Basket Scores</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <ChartContainer config={{ [currentTeam]: teamChartConfig }}>
-              <BarChart data={basketData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <ChartTooltip
-                  content={<ChartTooltipContent />}
-                  cursor={false}
-                />
-                <Bar
-                  dataKey={currentTeam}
-                  fill={teamChartConfig.color}
-                  name={teamChartConfig.label}
-                  radius={[5, 5, 0, 0]}
-                />
-                <Legend />
-              </BarChart>
-            </ChartContainer>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Average Chamber Scores</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <ChartContainer config={{ [currentTeam]: teamChartConfig }}>
-              <BarChart data={chamberData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <ChartTooltip
-                  content={<ChartTooltipContent />}
-                  cursor={false}
-                />
-                <Bar
-                  dataKey={currentTeam}
-                  fill={teamChartConfig.color}
-                  name={teamChartConfig.label}
-                  radius={[5, 5, 0, 0]}
-                />
-                <Legend />
-              </BarChart>
             </ChartContainer>
           </ResponsiveContainer>
         </CardContent>
