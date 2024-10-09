@@ -116,7 +116,7 @@ export default function TeleopDashboard({ currentTeamData, chartConfig }) {
       </Card>
       <Card>
         <CardHeader>
-          <CardTitle>Average Cycle Time per Qualification</CardTitle>
+          <CardTitle>Average Cycle Time Across Qualifications</CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
