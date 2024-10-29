@@ -85,8 +85,8 @@ export default function EndgameFields({ control }) {
                 <HoverCardContent className="text-sm font-normal">
                   <ul className="list-disc pl-4 space-y-1">
                     <li>Penalties</li>
-                    <li>Driver Ability</li>
-                    <li>Human Player Ability</li>
+                    <li>Autonomous Pathing</li>
+                    <li>Driver Abilty</li>
                   </ul>
                 </HoverCardContent>
               </HoverCard>
