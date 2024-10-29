@@ -1,11 +1,13 @@
 "use client";
 
-import { useCallback, useState, useRef } from "react";
+import { useCallback, useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
 
 import { useTeamData } from "@/hooks/useTeamData";
+import { QRCodeSVG } from "qrcode.react";
 import { toPng } from "html-to-image";
+import { useTheme } from "next-themes";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -23,7 +25,6 @@ import {
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
-import { QRCodeSVG } from "qrcode.react";
 
 import { Copy, Download, QrCode } from "lucide-react";
 
@@ -35,6 +36,7 @@ import TeamComparison from "@/components/dashboard/TeamComparison";
 import { DashboardSkeleton } from "@/components/dashboard/DashboardSkeleton";
 
 export default function TeamDashboard() {
+  const { theme, systemTheme } = useTheme();
   const params = useParams();
   const teamNumber = params.teamNumber;
   const { teamData, isLoading } = useTeamData();
@@ -42,9 +44,33 @@ export default function TeamDashboard() {
   const [qrCodeData, setQrCodeData] = useState("");
   const [activeTab, setActiveTab] = useState("overview");
   const dashboardRef = useRef(null);
+  const [qrBgColor, setQrBgColor] = useState("#ffffff");
+  const [qrFgColor, setQrFgColor] = useState("#000000");
 
   const currentTeamData =
     teamData?.filter((team) => team.teamNumber.toString() === teamNumber) || [];
+
+  const updateQRColours = useCallback(() => {
+    const variable = document.documentElement;
+    const bg = getComputedStyle(variable)
+      .getPropertyValue("--background")
+      .trim();
+    const fg = getComputedStyle(variable)
+      .getPropertyValue("--foreground")
+      .trim();
+    setQrBgColor(`hsl(${bg})`);
+    setQrFgColor(`hsl(${fg})`);
+  }, []);
+
+  useEffect(() => {
+    updateQRColours();
+    window.addEventListener("theme-change", updateQRColours);
+    return () => window.removeEventListener("theme-change", updateQRColours);
+  }, [updateQRColours]);
+
+  useEffect(() => {
+    updateQRColours();
+  }, [theme, systemTheme, updateQRColours]);
 
   const exportJSON = useCallback(() => {
     const dataStr = JSON.stringify(currentTeamData, null, 2);
@@ -58,6 +84,7 @@ export default function TeamDashboard() {
   const handleQRCode = useCallback(() => {
     const jsonData = JSON.stringify(currentTeamData);
     setQrCodeData(jsonData);
+    updateQRColours();
 
     toast.promise(new Promise((resolve) => setTimeout(resolve, 2000)), {
       loading: "Generating QR Code...",
@@ -67,7 +94,7 @@ export default function TeamDashboard() {
       },
       error: "Failed to Generate QR Code",
     });
-  }, [currentTeamData]);
+  }, [currentTeamData, updateQRColours]);
 
   const downloadAsImage = useCallback(() => {
     const activeTabContent = dashboardRef.current?.querySelector(
@@ -171,7 +198,12 @@ export default function TeamDashboard() {
             <DialogDescription>Scan to Access Team Data</DialogDescription>
           </DialogHeader>
           <div className="flex items-center justify-center py-6">
-            <QRCodeSVG value={qrCodeData} size={256} />
+            <QRCodeSVG
+              value={qrCodeData}
+              bgColor={qrBgColor}
+              fgColor={qrFgColor}
+              size={256}
+            />
           </div>
           <div className="flex justify-center">
             <Button onClick={() => setShowQRModal(false)}>Close</Button>

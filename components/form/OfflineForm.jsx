@@ -1,12 +1,13 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useForm } from "react-hook-form";
-import { QRCodeSVG } from "qrcode.react";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 import { formSchema } from "@/lib/schema";
 import { loadData, saveData, clearData } from "@/lib/dataManager";
+import { QRCodeSVG } from "qrcode.react";
+import { useForm } from "react-hook-form";
+import { useTheme } from "next-themes";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
   AlertDialog,
@@ -40,10 +41,13 @@ import { Upload, TrashIcon } from "lucide-react";
 import ScoutingForm from "@/components/form/ScoutingForm";
 
 export default function OfflineForm() {
+  const { theme, systemTheme } = useTheme();
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [showQRModal, setShowQRModal] = useState(false);
   const [qrCodeData, setQrCodeData] = useState("");
   const [storedSubmissions, setStoredSubmissions] = useState([]);
+  const [qrBgColor, setQrBgColor] = useState("#ffffff");
+  const [qrFgColor, setQrFgColor] = useState("#000000");
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -68,9 +72,28 @@ export default function OfflineForm() {
     },
   });
 
+  const updateQRColors = useCallback(() => {
+    const variable = document.documentElement;
+    const bg = getComputedStyle(variable)
+      .getPropertyValue("--background")
+      .trim();
+    const fg = getComputedStyle(variable)
+      .getPropertyValue("--foreground")
+      .trim();
+    setQrBgColor(`hsl(${bg})`);
+    setQrFgColor(`hsl(${fg})`);
+  }, []);
+
   useEffect(() => {
     setStoredSubmissions(loadData());
-  }, []);
+    updateQRColors();
+    window.addEventListener("theme-change", updateQRColors);
+    return () => window.removeEventListener("theme-change", updateQRColors);
+  }, [updateQRColors]);
+
+  useEffect(() => {
+    updateQRColors();
+  }, [theme, systemTheme, updateQRColors]);
 
   const onSubmit = useCallback(
     (values) => {
@@ -94,6 +117,7 @@ export default function OfflineForm() {
   const handleExport = useCallback(() => {
     const jsonData = JSON.stringify(storedSubmissions);
     setQrCodeData(jsonData);
+    updateQRColors();
 
     toast.promise(new Promise((resolve) => setTimeout(resolve, 2000)), {
       loading: "Generating QR Code...",
@@ -103,7 +127,7 @@ export default function OfflineForm() {
       },
       error: "Failed to Generate QR Code",
     });
-  }, [storedSubmissions]);
+  }, [storedSubmissions, updateQRColors]);
 
   const handleClear = useCallback(() => {
     clearData();
@@ -180,7 +204,12 @@ export default function OfflineForm() {
             <DialogDescription>Scan to Access Form Data</DialogDescription>
           </DialogHeader>
           <div className="flex items-center justify-center py-6">
-            <QRCodeSVG value={qrCodeData} size={256} />
+            <QRCodeSVG
+              value={qrCodeData}
+              bgColor={qrBgColor}
+              fgColor={qrFgColor}
+              size={256}
+            />
           </div>
           <div className="flex justify-center">
             <Button onClick={() => setShowQRModal(false)}>Close</Button>
