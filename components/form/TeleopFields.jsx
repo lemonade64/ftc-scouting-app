@@ -171,17 +171,20 @@ export default function TeleopFields({ control, setValue }) {
                         {cycleTime}s
                       </div>
                     ))}
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="icon"
-                      onClick={handleReset}
-                    >
-                      <RefreshCw className="h-5 w-5" />
-                    </Button>
                   </div>
                 </div>
               )}
+              <div className="mt-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={handleReset}
+                >
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  Reset
+                </Button>
+              </div>
               <FormMessage />
             </FormItem>
           )}
