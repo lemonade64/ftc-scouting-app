@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 
 import { formSchema } from "@/lib/schema";
 import { loadData, saveData, clearData } from "@/lib/dataManager";
+
 import { QRCodeSVG } from "qrcode.react";
 import { useForm } from "react-hook-form";
 import { useTheme } from "next-themes";
@@ -161,7 +162,6 @@ export default function OfflineForm() {
                 size="icon"
               >
                 <Upload className="h-4 w-4" />
-                <span className="sr-only">Export Data</span>
               </Button>
               <Button
                 onClick={handleClear}
@@ -170,7 +170,6 @@ export default function OfflineForm() {
                 size="icon"
               >
                 <TrashIcon className="h-4 w-4" />
-                <span className="sr-only">Clear Stored Data</span>
               </Button>
             </div>
             <p className="text-sm text-gray-500">
