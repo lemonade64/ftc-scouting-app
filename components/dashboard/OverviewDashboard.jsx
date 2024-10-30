@@ -24,16 +24,13 @@ import { Flag, Target, Users, Zap } from "lucide-react";
 
 const overviewChartConfig = {
   score: {
-    label: "Score",
+    label: "Points",
   },
 };
 
 export default function OverviewTab({ currentTeamData = [] }) {
-  const teamNumber = currentTeamData[0]?.teamNumber || "";
-  const teamName = currentTeamData[0]?.teamName || "";
-
   const radarChartConfig = {
-    [teamNumber]: { label: teamName },
+    Points: { label: "Points" },
   };
 
   const averageScores = currentTeamData.reduce((acc, match) => {
@@ -52,13 +49,13 @@ export default function OverviewTab({ currentTeamData = [] }) {
     .sort((a, b) => a.qualificationNumber - b.qualificationNumber)
     .map((match) => ({
       match: match.qualificationNumber,
-      score: calculateScores(match).totalScore,
+      Points: calculateScores(match).totalScore,
     })) || [{ match: "No Data", score: 0 }];
 
   const radarData = [
-    { metric: "Auto Score", [teamNumber]: averageScores.autoScore || 0 },
-    { metric: "Teleop Score", [teamNumber]: averageScores.teleopScore || 0 },
-    { metric: "Endgame Score", [teamNumber]: averageScores.endgameScore || 0 },
+    { metric: "Auto Score", Points: averageScores.autoScore || 0 },
+    { metric: "Teleop Score", Points: averageScores.teleopScore || 0 },
+    { metric: "Endgame Score", Points: averageScores.endgameScore || 0 },
   ];
 
   return (
@@ -138,7 +135,7 @@ export default function OverviewTab({ currentTeamData = [] }) {
                   />
                   <Area
                     type="monotone"
-                    dataKey="score"
+                    dataKey="Points"
                     stroke="hsl(var(--chart-1))"
                     fill="hsl(var(--chart-1))"
                     fillOpacity={0.3}
@@ -163,8 +160,8 @@ export default function OverviewTab({ currentTeamData = [] }) {
                     content={<ChartTooltipContent />}
                   />
                   <Radar
-                    name={teamName}
-                    dataKey={teamNumber}
+                    name="Points"
+                    dataKey="Points"
                     stroke="hsl(var(--chart-1))"
                     fill="hsl(var(--chart-1))"
                     fillOpacity={0.6}

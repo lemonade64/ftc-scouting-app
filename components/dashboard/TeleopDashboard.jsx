@@ -1,5 +1,5 @@
-import React from "react";
 import { getAverageData } from "@/lib/dashboardManager";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartContainer,
@@ -28,41 +28,41 @@ export default function TeleopDashboard({ currentTeamData, chartConfig }) {
   const radarData = [
     {
       metric: "Basket High",
-      [currentTeam]: getAverageData(currentTeamData, "teleopBasketHigh"),
+      Scores: getAverageData(currentTeamData, "teleopBasketHigh"),
     },
     {
       metric: "Chamber High",
-      [currentTeam]: getAverageData(currentTeamData, "teleopChamberHigh"),
+      Scores: getAverageData(currentTeamData, "teleopChamberHigh"),
     },
     {
       metric: "Basket Low",
-      [currentTeam]: getAverageData(currentTeamData, "teleopBasketLow"),
+      Scores: getAverageData(currentTeamData, "teleopBasketLow"),
     },
     {
       metric: "Chamber Low",
-      [currentTeam]: getAverageData(currentTeamData, "teleopChamberLow"),
+      Scores: getAverageData(currentTeamData, "teleopChamberLow"),
     },
   ];
 
   const basketData = [
     {
       name: "High",
-      [currentTeam]: getAverageData(currentTeamData, "teleopBasketHigh"),
+      Scores: getAverageData(currentTeamData, "teleopBasketHigh"),
     },
     {
       name: "Low",
-      [currentTeam]: getAverageData(currentTeamData, "teleopBasketLow"),
+      Scores: getAverageData(currentTeamData, "teleopBasketLow"),
     },
   ];
 
   const chamberData = [
     {
       name: "High",
-      [currentTeam]: getAverageData(currentTeamData, "teleopChamberHigh"),
+      Scores: getAverageData(currentTeamData, "teleopChamberHigh"),
     },
     {
       name: "Low",
-      [currentTeam]: getAverageData(currentTeamData, "teleopChamberLow"),
+      Scores: getAverageData(currentTeamData, "teleopChamberLow"),
     },
   ];
 
@@ -76,7 +76,7 @@ export default function TeleopDashboard({ currentTeamData, chartConfig }) {
     }));
 
   const defaultChartConfig = {
-    label: "Team " + currentTeam,
+    label: "Scores",
     color: "hsl(var(--chart-1))",
   };
 
@@ -93,7 +93,7 @@ export default function TeleopDashboard({ currentTeamData, chartConfig }) {
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
-            <ChartContainer config={{ [currentTeam]: teamChartConfig }}>
+            <ChartContainer config={{ Scores: teamChartConfig }}>
               <RadarChart data={radarData}>
                 <PolarGrid />
                 <PolarAngleAxis dataKey="metric" />
@@ -103,7 +103,7 @@ export default function TeleopDashboard({ currentTeamData, chartConfig }) {
                 />
                 <Radar
                   name={teamChartConfig.label}
-                  dataKey={currentTeam}
+                  dataKey="Scores"
                   stroke={teamChartConfig.color}
                   fill={teamChartConfig.color}
                   fillOpacity={0.6}
@@ -120,7 +120,7 @@ export default function TeleopDashboard({ currentTeamData, chartConfig }) {
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
-            <ChartContainer config={{ [currentTeam]: teamChartConfig }}>
+            <ChartContainer config={{ Scores: teamChartConfig }}>
               <AreaChart data={cycleTimeData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="match" />
@@ -158,7 +158,7 @@ export default function TeleopDashboard({ currentTeamData, chartConfig }) {
                   cursor={false}
                 />
                 <Bar
-                  dataKey={currentTeam}
+                  dataKey="Scores"
                   fill={teamChartConfig.color}
                   name={teamChartConfig.label}
                   radius={[5, 5, 0, 0]}
@@ -175,7 +175,7 @@ export default function TeleopDashboard({ currentTeamData, chartConfig }) {
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
-            <ChartContainer config={{ [currentTeam]: teamChartConfig }}>
+            <ChartContainer config={{ Scores: teamChartConfig }}>
               <BarChart data={chamberData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
@@ -185,7 +185,7 @@ export default function TeleopDashboard({ currentTeamData, chartConfig }) {
                   cursor={false}
                 />
                 <Bar
-                  dataKey={currentTeam}
+                  dataKey="Scores"
                   fill={teamChartConfig.color}
                   name={teamChartConfig.label}
                   radius={[5, 5, 0, 0]}

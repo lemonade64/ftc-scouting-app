@@ -36,9 +36,6 @@ const autoChartConfig = {
 };
 
 export default function AutonomousTab({ currentTeamData = [] }) {
-  const teamNumber = currentTeamData[0]?.teamNumber || "";
-  const teamName = currentTeamData[0]?.teamName || "";
-
   const radarChartConfig = {
     Scores: { label: "Scores" },
   };

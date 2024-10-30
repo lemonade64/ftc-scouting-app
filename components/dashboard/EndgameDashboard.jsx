@@ -47,10 +47,10 @@ export default function EndgameTab({ currentTeamData = [] }) {
   }, {});
 
   const ascentLevelData = [
-    { name: "High", count: ascentLevelDistribution.high || 0 },
-    { name: "Low", count: ascentLevelDistribution.low || 0 },
-    { name: "Park", count: ascentLevelDistribution.park || 0 },
-    { name: "Nothing", count: ascentLevelDistribution.nothing || 0 },
+    { name: "High", Occurrences: ascentLevelDistribution.high || 0 },
+    { name: "Low", Occurrences: ascentLevelDistribution.low || 0 },
+    { name: "Park", Occurrences: ascentLevelDistribution.park || 0 },
+    { name: "Nothing", Occurrences: ascentLevelDistribution.nothing || 0 },
   ];
 
   const ascentTimeData = currentTeamData
@@ -78,14 +78,14 @@ export default function EndgameTab({ currentTeamData = [] }) {
                   cursor={false}
                 />
                 <Bar
-                  dataKey="count"
+                  dataKey="Occurrences"
                   fill="hsl(var(--chart-1))"
                   radius={[4, 4, 0, 0]}
                 >
                   {ascentLevelData.map((entry, index) => (
                     <Bar
                       key={`bar-${index}`}
-                      dataKey="count"
+                      dataKey="Occurrences"
                       fill={endgameChartConfig[entry.name.toLowerCase()].color}
                       name={entry.name}
                     />
