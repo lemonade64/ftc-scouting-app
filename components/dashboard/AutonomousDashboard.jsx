@@ -40,7 +40,7 @@ export default function AutonomousTab({ currentTeamData = [] }) {
   const teamName = currentTeamData[0]?.teamName || "";
 
   const radarChartConfig = {
-    [teamNumber]: { label: teamName },
+    Scores: { label: "Scores" },
   };
 
   const preloadDistribution = currentTeamData.reduce((acc, match) => {
@@ -49,49 +49,49 @@ export default function AutonomousTab({ currentTeamData = [] }) {
   }, {});
 
   const preloadData = [
-    { name: "Specimen", count: preloadDistribution["Specimen"] || 0 },
-    { name: "Sample", count: preloadDistribution["Sample"] || 0 },
-    { name: "Nothing", count: preloadDistribution["Nothing"] || 0 },
+    { name: "Specimen", Occurrences: preloadDistribution["Specimen"] || 0 },
+    { name: "Sample", Occurrences: preloadDistribution["Sample"] || 0 },
+    { name: "Nothing", Occurrences: preloadDistribution["Nothing"] || 0 },
   ];
 
   const basketData = [
     {
       name: "High",
-      Points: getAverageData(currentTeamData, "autoBasketHigh") || 0,
+      Scores: getAverageData(currentTeamData, "autoBasketHigh") || 0,
     },
     {
       name: "Low",
-      Points: getAverageData(currentTeamData, "autoBasketLow") || 0,
+      Scores: getAverageData(currentTeamData, "autoBasketLow") || 0,
     },
   ];
 
   const chamberData = [
     {
       name: "High",
-      Points: getAverageData(currentTeamData, "autoChamberHigh") || 0,
+      Scores: getAverageData(currentTeamData, "autoChamberHigh") || 0,
     },
     {
       name: "Low",
-      Points: getAverageData(currentTeamData, "autoChamberLow") || 0,
+      Scores: getAverageData(currentTeamData, "autoChamberLow") || 0,
     },
   ];
 
   const radarData = [
     {
       metric: "Basket High",
-      [teamNumber]: getAverageData(currentTeamData, "autoBasketHigh") || 0,
+      Scores: getAverageData(currentTeamData, "autoBasketHigh") || 0,
     },
     {
       metric: "Chamber High",
-      [teamNumber]: getAverageData(currentTeamData, "autoChamberHigh") || 0,
+      Scores: getAverageData(currentTeamData, "autoChamberHigh") || 0,
     },
     {
       metric: "Basket Low",
-      [teamNumber]: getAverageData(currentTeamData, "autoBasketLow") || 0,
+      Scores: getAverageData(currentTeamData, "autoBasketLow") || 0,
     },
     {
       metric: "Chamber Low",
-      [teamNumber]: getAverageData(currentTeamData, "autoChamberLow") || 0,
+      Scores: getAverageData(currentTeamData, "autoChamberLow") || 0,
     },
   ];
 
@@ -112,8 +112,8 @@ export default function AutonomousTab({ currentTeamData = [] }) {
                   content={<ChartTooltipContent />}
                 />
                 <Radar
-                  name={teamName}
-                  dataKey={teamNumber}
+                  name="Scores"
+                  dataKey="Scores"
                   stroke="hsl(var(--chart-1))"
                   fill="hsl(var(--chart-1))"
                   fillOpacity={0.6}
@@ -140,7 +140,7 @@ export default function AutonomousTab({ currentTeamData = [] }) {
                   cursor={false}
                 />
                 <Bar
-                  dataKey="count"
+                  dataKey="Occurrences"
                   fill="hsl(var(--chart-3))"
                   radius={[5, 5, 0, 0]}
                 />
@@ -165,7 +165,7 @@ export default function AutonomousTab({ currentTeamData = [] }) {
                   cursor={false}
                 />
                 <Bar
-                  dataKey="Points"
+                  dataKey="Scores"
                   fill="hsl(var(--chart-1))"
                   radius={[5, 5, 0, 0]}
                 />
@@ -190,7 +190,7 @@ export default function AutonomousTab({ currentTeamData = [] }) {
                   cursor={false}
                 />
                 <Bar
-                  dataKey="Points"
+                  dataKey="Scores"
                   fill="hsl(var(--chart-2))"
                   radius={[5, 5, 0, 0]}
                 />
