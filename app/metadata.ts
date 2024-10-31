@@ -47,4 +47,12 @@ export const metadata: Metadata = {
   },
   abstract: siteConfig.description,
   category: "technology",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: siteConfig.name.short,
+  },
+  formatDetection: {
+    telephone: false,
+  },
 };
