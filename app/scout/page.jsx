@@ -1,12 +1,10 @@
-import OnlineForm from "@/components/form/OnlineForm";
-import OfflineForm from "@/components/form/OfflineForm";
+import Form from "@/components/form/Form";
 import DataImporter from "@/components/form/DataImporter";
 
 export default function Scout() {
   return (
     <>
-      <OnlineForm />
-      <OfflineForm />
+      <Form />
       <DataImporter />
     </>
   );

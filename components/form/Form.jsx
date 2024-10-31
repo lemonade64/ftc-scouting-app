@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useCallback } from "react";
 
-import { formSchema } from "@/lib/schema";
+import { submit } from "@/app/actions/submit";
 import { loadData, saveData, clearData } from "@/lib/dataManager";
+import { formSchema } from "@/lib/schema";
 
 import { QRCodeSVG } from "qrcode.react";
 import { useForm } from "react-hook-form";
@@ -34,21 +35,25 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogFooter,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 
-import { Upload, TrashIcon } from "lucide-react";
+import { Upload, TrashIcon, Settings } from "lucide-react";
 
 import ScoutingForm from "@/components/form/ScoutingForm";
 
-export default function OfflineForm() {
+export default function Form() {
   const { theme, systemTheme } = useTheme();
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [showQRModal, setShowQRModal] = useState(false);
+  const [showSpreadsheetIDDialog, setShowSpreadsheetIDDialog] = useState(false);
   const [qrCodeData, setQrCodeData] = useState("");
   const [storedSubmissions, setStoredSubmissions] = useState([]);
   const [qrBgColor, setQrBgColor] = useState("#ffffff");
   const [qrFgColor, setQrFgColor] = useState("#000000");
+  const [spreadsheetID, setSpreadsheetID] = useState("");
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -88,6 +93,10 @@ export default function OfflineForm() {
   useEffect(() => {
     setStoredSubmissions(loadData());
     updateQRColors();
+    const storedSpreadsheetID = localStorage.getItem("spreadsheetID");
+    if (storedSpreadsheetID) {
+      setSpreadsheetID(storedSpreadsheetID);
+    }
     window.addEventListener("theme-change", updateQRColors);
     return () => window.removeEventListener("theme-change", updateQRColors);
   }, [updateQRColors]);
@@ -97,18 +106,36 @@ export default function OfflineForm() {
   }, [theme, systemTheme, updateQRColors]);
 
   const onSubmit = useCallback(
-    (values) => {
+    async (values) => {
       setShowConfirmDialog(false);
+
+      const formData = new FormData();
+      Object.entries(values).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+      formData.append("spreadsheetID", spreadsheetID);
+
+      try {
+        const result = await submit(formData);
+        if (result.success) {
+          toast.success("Form Submitted Successfully", {
+            description: "Exported Data to Google Sheets",
+          });
+          form.reset();
+        } else {
+          throw new Error(result.message);
+        }
+      } catch (error) {
+        console.error("Error Submitting Form:", error);
+        toast.error("Form Submission Failed", {
+          description: error.message || "Failed To Submit Form",
+        });
+      }
+
       saveData([values]);
       setStoredSubmissions(loadData());
-
-      toast.success("Form Submitted Successfully", {
-        description: "Data Saved Locally",
-      });
-
-      form.reset();
     },
-    [form]
+    [form, spreadsheetID]
   );
 
   const handleSubmit = useCallback(() => {
@@ -137,15 +164,21 @@ export default function OfflineForm() {
     toast.success("Local Data Cleared Successfully");
   }, []);
 
+  const handleSpreadsheetIDSave = useCallback(() => {
+    localStorage.setItem("spreadsheetID", spreadsheetID);
+    setShowSpreadsheetIDDialog(false);
+    toast.success("Spreadsheet ID Saved Successfully");
+  }, [spreadsheetID]);
+
   return (
     <div className="container mx-auto py-10">
       <Card className="w-full max-w-4xl mx-auto">
         <CardHeader>
           <CardTitle className="text-4xl font-bold text-center">
-            Offline Scouting Form
+            Scouting Form
           </CardTitle>
           <CardDescription className="text-xl text-center">
-            Record and Export Data via QR Code
+            Record and Export Data via QR Code or Google Sheets
           </CardDescription>
         </CardHeader>
         <CardContent className="p-6">
@@ -156,6 +189,12 @@ export default function OfflineForm() {
           />
           <div className="mt-6 flex justify-between items-center">
             <div className="flex space-x-2">
+              <Button
+                onClick={() => setShowSpreadsheetIDDialog(true)}
+                size="icon"
+              >
+                <Settings className="h-4 w-4" />
+              </Button>
               <Button
                 onClick={handleExport}
                 disabled={storedSubmissions.length === 0}
@@ -213,6 +252,27 @@ export default function OfflineForm() {
           <div className="flex justify-center">
             <Button onClick={() => setShowQRModal(false)}>Close</Button>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={showSpreadsheetIDDialog}
+        onOpenChange={setShowSpreadsheetIDDialog}
+      >
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Spreadsheet ID</DialogTitle>
+            <DialogDescription>
+              Required for Google Sheets Integration
+            </DialogDescription>
+          </DialogHeader>
+          <Input
+            value={spreadsheetID}
+            onChange={(e) => setSpreadsheetID(e.target.value)}
+          />
+          <DialogFooter>
+            <Button onClick={handleSpreadsheetIDSave}>Save</Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
