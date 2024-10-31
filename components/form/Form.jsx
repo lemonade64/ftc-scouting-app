@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { submit } from "@/app/actions/submit";
 import { loadData, saveData, clearData } from "@/lib/dataManager";
@@ -35,7 +35,6 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
@@ -115,25 +114,33 @@ export default function Form() {
       });
       formData.append("spreadsheetID", spreadsheetID);
 
-      try {
-        const result = await submit(formData);
-        if (result.success) {
-          toast.success("Form Submitted Successfully", {
-            description: "Exported Data to Google Sheets",
+      saveData([values]);
+      setStoredSubmissions(loadData());
+
+      if (spreadsheetID) {
+        try {
+          const result = await submit(formData);
+          if (result.success) {
+            toast.success("Form Submitted Successfully", {
+              description: "Exported Data to Google Sheets",
+            });
+          } else {
+            throw new Error(result.message);
+          }
+        } catch (error) {
+          console.error("Error Submitting Form:", error);
+          toast.error("Google Sheets Submission Failed", {
+            description:
+              error.message || "Failed To Submit Form to Google Sheets",
           });
-          form.reset();
-        } else {
-          throw new Error(result.message);
         }
-      } catch (error) {
-        console.error("Error Submitting Form:", error);
-        toast.error("Form Submission Failed", {
-          description: error.message || "Failed To Submit Form",
+      } else {
+        toast.success("Form Submitted Successfully", {
+          description: "Data Saved Locally",
         });
       }
 
-      saveData([values]);
-      setStoredSubmissions(loadData());
+      form.reset();
     },
     [form, spreadsheetID]
   );
@@ -263,16 +270,17 @@ export default function Form() {
           <DialogHeader>
             <DialogTitle>Spreadsheet ID</DialogTitle>
             <DialogDescription>
-              Required for Google Sheets Integration
+              Required for Google Sheets Integration{" "}
+              <span className="font-bold">(optional)</span>
             </DialogDescription>
           </DialogHeader>
-          <Input
-            value={spreadsheetID}
-            onChange={(e) => setSpreadsheetID(e.target.value)}
-          />
-          <DialogFooter>
+          <div className="flex gap-x-4">
+            <Input
+              value={spreadsheetID}
+              onChange={(e) => setSpreadsheetID(e.target.value)}
+            />
             <Button onClick={handleSpreadsheetIDSave}>Save</Button>
-          </DialogFooter>
+          </div>
         </DialogContent>
       </Dialog>
     </div>
