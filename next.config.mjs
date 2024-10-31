@@ -2,6 +2,8 @@ import withSerwistInit from "@serwist/next";
 import { createMDX } from "fumadocs-mdx/next";
 import withBundleAnalyzer from "@next/bundle-analyzer";
 
+const revision = crypto.randomUUID();
+
 const nextConfig = {
   async headers() {
     return [
@@ -44,8 +46,10 @@ const nextConfig = {
 };
 
 const withSerwist = withSerwistInit({
+  cacheOnNavigation: true,
   swSrc: "app/sw.ts",
   swDest: "public/sw.js",
+  additionalPrecacheEntries: [{ url: "/~offline", revision }],
 });
 
 const withMDX = createMDX();
