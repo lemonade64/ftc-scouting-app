@@ -1,5 +1,7 @@
 import "./global.css";
 
+import type { Viewport } from "next";
+
 import { Analytics } from "@vercel/analytics/react";
 import { Poppins } from "next/font/google";
 import Script from "next/script";
@@ -24,6 +26,10 @@ const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
+export const viewport: Viewport = {
+  themeColor: "#FFFFFF",
+};
+
 export { metadata };
 
 export default function RootLayout({
@@ -35,7 +41,7 @@ export default function RootLayout({
   const checkLocalStorage = cookieStore.get("checkLocalStorage");
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" dir="ltr" suppressHydrationWarning>
       <head>
         <Script
           type="application/ld+json"
