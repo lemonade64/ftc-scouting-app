@@ -12,7 +12,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { Cell, PieChart, Pie, ResponsiveContainer, Label } from "recharts";
+import { Cell, Label, PieChart, Pie, ResponsiveContainer } from "recharts";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -150,9 +150,9 @@ export default function Dashboard() {
   return (
     <div className="container mx-auto p-4 mb-10">
       <h1 className="text-3xl font-bold mb-6">Team Overview</h1>
-      <div className="flex justify-between mb-6">
+      <div className="flex justify-between mb-6 gap-4">
         <Input
-          placeholder="Search teams..."
+          placeholder="Search Teams..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="max-w-sm"
@@ -172,7 +172,7 @@ export default function Dashboard() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filteredAndSortedTeams.map((team) => (
           <Link href={`/dashboard/${team.teamNumber}`} key={team.teamNumber}>
-            <Card className="hover:bg-accent transition-colors">
+            <Card className="hover:bg-accent/30 transition-colors">
               <CardContent className="p-4">
                 <h2 className="text-xl font-semibold">
                   Team {team.teamNumber}
