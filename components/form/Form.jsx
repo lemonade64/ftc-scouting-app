@@ -23,13 +23,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -179,16 +172,12 @@ export default function Form() {
 
   return (
     <div className="container mx-auto py-10">
-      <Card className="w-full max-w-4xl mx-auto">
-        <CardHeader>
-          <CardTitle className="text-4xl font-bold text-center">
-            Scouting Form
-          </CardTitle>
-          <CardDescription className="text-xl text-center">
-            Record and Export Data via QR Code or Google Sheets
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="p-6">
+      <section className="w-full max-w-4xl mx-auto">
+        <h1 className="text-4xl font-bold text-center">Scouting Form</h1>
+        <p className="text-xl text-center">
+          Record and Export Data via QR Code or Google Sheets
+        </p>
+        <div className="p-6">
           <ScoutingForm
             form={form}
             onSubmit={handleSubmit}
@@ -222,8 +211,8 @@ export default function Form() {
               Stored submissions: {storedSubmissions.length}
             </p>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </section>
 
       <AlertDialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
         <AlertDialogContent>

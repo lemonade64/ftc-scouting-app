@@ -11,10 +11,10 @@ import AutonomousFields from "./AutonomousFields";
 import TeleopFields from "./TeleopFields";
 import EndgameFields from "./EndgameFields";
 
-const FORM_SECTIONS = ["Metadata", "Auto", "Teleop", "Endgame"];
+const FORM_SECTIONS = ["Meta", "Auto", "Teleop", "Endgame"];
 
 export default function ScoutingForm({ form, onSubmit, submitButtonText }) {
-  const [activeTab, setActiveTab] = useState("metadata");
+  const [activeTab, setActiveTab] = useState("meta");
   const { control, setValue, trigger, formState, handleSubmit } = form;
 
   const handleFormSubmit = useCallback(
@@ -62,7 +62,7 @@ export default function ScoutingForm({ form, onSubmit, submitButtonText }) {
               key={section.toLowerCase()}
               value={section.toLowerCase()}
             >
-              {section === "Metadata" && <MetadataFields control={control} />}
+              {section === "Meta" && <MetadataFields control={control} />}
               {section === "Auto" && (
                 <AutonomousFields control={control} setValue={setValue} />
               )}

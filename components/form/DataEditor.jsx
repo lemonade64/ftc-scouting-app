@@ -239,7 +239,6 @@ export default function DataEditor({ onDataChange }) {
 
   return (
     <div className="w-full p-4">
-      <h2 className="text-2xl font-bold mb-4">Edit Imported Data</h2>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {data.map((entry, index) => (
           <Card key={index}>

@@ -9,13 +9,6 @@ import { loadData, saveData } from "@/lib/dataManager";
 
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -121,17 +114,11 @@ export default function DataImporter() {
   }, []);
 
   return (
-    <div className="container mx-auto py-10">
-      <Card className="w-full max-w-4xl mx-auto">
-        <CardHeader>
-          <CardTitle className="text-4xl font-bold text-center">
-            Import Data
-          </CardTitle>
-          <CardDescription className="text-xl text-center">
-            Scan QR Code or Import JSON to Load Data
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="p-6">
+    <section className="container mx-auto py-10">
+      <div className="w-full max-w-4xl mx-auto">
+        <h1 className="text-4xl font-bold text-center">Import Data</h1>
+        <p className="text-xl text-center">Import Data via QR Code or JSON</p>
+        <div className="p-6">
           <div className="flex justify-center space-x-4 mb-6">
             <Dialog open={showScanner} onOpenChange={setShowScanner}>
               <DialogTrigger asChild>
@@ -218,8 +205,8 @@ export default function DataImporter() {
           {storedData.length > 0 && (
             <DataEditor key={dataEditorKey} onDataChange={handleDataChange} />
           )}
-        </CardContent>
-      </Card>
-    </div>
+        </div>
+      </div>
+    </section>
   );
 }
