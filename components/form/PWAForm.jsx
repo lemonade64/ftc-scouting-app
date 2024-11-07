@@ -27,17 +27,20 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import { toast } from "sonner";
 
 import { Upload, TrashIcon } from "lucide-react";
 
 import ScoutingForm from "@/components/form/ScoutingForm";
+import DataEditor from "@/components/form/DataEditor";
 
 export default function PWAForm() {
   const { theme, systemTheme } = useTheme();
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [showQRModal, setShowQRModal] = useState(false);
+  const [showDataEditorDialog, setShowDataEditorDialog] = useState(false);
   const [qrCodeData, setQrCodeData] = useState("");
   const [storedSubmissions, setStoredSubmissions] = useState([]);
   const [qrBgColor, setQrBgColor] = useState("#ffffff");
@@ -130,6 +133,10 @@ export default function PWAForm() {
     toast.success("Local Data Cleared Successfully");
   }, []);
 
+  const handleDataChange = useCallback((newData) => {
+    setStoredSubmissions(newData);
+  }, []);
+
   return (
     <div className="container mx-auto py-10">
       <section className="w-full max-w-4xl mx-auto">
@@ -138,11 +145,7 @@ export default function PWAForm() {
           Record and Export Data via QR Code
         </p>
         <div className="p-6">
-          <ScoutingForm
-            form={form}
-            onSubmit={handleSubmit}
-            submitButtonText="Submit Form"
-          />
+          <ScoutingForm form={form} onSubmit={handleSubmit} />
           <div className="mt-6 flex justify-between items-center">
             <div className="flex space-x-2">
               <Button
@@ -161,9 +164,29 @@ export default function PWAForm() {
                 <TrashIcon className="h-4 w-4" />
               </Button>
             </div>
-            <p className="text-sm text-gray-500">
-              Stored submissions: {storedSubmissions.length}
-            </p>
+            <Dialog
+              open={showDataEditorDialog}
+              onOpenChange={setShowDataEditorDialog}
+            >
+              <DialogTrigger asChild>
+                {storedSubmissions.length > 0 && (
+                  <Button variant="link">
+                    Stored Submissions: {storedSubmissions.length}
+                  </Button>
+                )}
+              </DialogTrigger>
+              <DialogContent className="max-w-[90vw] max-h-[90vh] flex flex-col">
+                <DialogHeader>
+                  <DialogTitle>Stored Submissions</DialogTitle>
+                  <DialogDescription>
+                    View and edit your stored submissions
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="flex-grow overflow-auto">
+                  <DataEditor onDataChange={handleDataChange} />
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </section>

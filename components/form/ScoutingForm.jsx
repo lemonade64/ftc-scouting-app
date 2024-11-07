@@ -13,7 +13,7 @@ import EndgameFields from "./EndgameFields";
 
 const FORM_SECTIONS = ["Meta", "Auto", "Teleop", "Endgame"];
 
-export default function ScoutingForm({ form, onSubmit, submitButtonText }) {
+export default function ScoutingForm({ form, onSubmit }) {
   const [activeTab, setActiveTab] = useState("meta");
   const { control, setValue, trigger, formState, handleSubmit } = form;
 
@@ -78,7 +78,7 @@ export default function ScoutingForm({ form, onSubmit, submitButtonText }) {
           className="w-full"
           disabled={formState.isSubmitting}
         >
-          {formState.isSubmitting ? "Submitting..." : submitButtonText}
+          {formState.isSubmitting ? "Submitting..." : "Submit Form"}
         </Button>
       </form>
     </Form>
