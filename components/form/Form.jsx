@@ -1,10 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 
-import { submit } from "@/app/actions/submit";
-import { loadData, saveData, clearData } from "@/lib/dataManager";
 import { formSchema } from "@/lib/schema";
+import { clearData, loadData, saveData } from "@/lib/dataManager";
 
 import { QRCodeSVG } from "qrcode.react";
 import { useForm } from "react-hook-form";
@@ -28,13 +27,20 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
-
 import { Upload, TrashIcon, Settings } from "lucide-react";
-
 import ScoutingForm from "@/components/form/ScoutingForm";
 import DataEditor from "@/components/form/DataEditor";
 
@@ -43,7 +49,7 @@ export default function Form() {
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [showQRModal, setShowQRModal] = useState(false);
   const [showSpreadsheetIDDialog, setShowSpreadsheetIDDialog] = useState(false);
-  const [showDataEditorDialog, setShowDataEditorDialog] = useState(false);
+  const [showDataEditorDrawer, setShowDataEditorDrawer] = useState(false);
   const [qrCodeData, setQrCodeData] = useState("");
   const [storedSubmissions, setStoredSubmissions] = useState([]);
   const [qrBgColor, setQrBgColor] = useState("#ffffff");
@@ -210,29 +216,34 @@ export default function Form() {
                 <TrashIcon className="h-4 w-4" />
               </Button>
             </div>
-            <Dialog
-              open={showDataEditorDialog}
-              onOpenChange={setShowDataEditorDialog}
+            <Drawer
+              open={showDataEditorDrawer}
+              onOpenChange={setShowDataEditorDrawer}
             >
-              <DialogTrigger asChild>
+              <DrawerTrigger asChild>
                 {storedSubmissions.length > 0 && (
                   <Button variant="link">
                     Stored Submissions: {storedSubmissions.length}
                   </Button>
                 )}
-              </DialogTrigger>
-              <DialogContent className="max-w-[90vw] max-h-[90vh] flex flex-col">
-                <DialogHeader>
-                  <DialogTitle>Stored Submissions</DialogTitle>
-                  <DialogDescription>
-                    View and edit your stored submissions
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="flex-grow overflow-auto">
+              </DrawerTrigger>
+              <DrawerContent>
+                <DrawerHeader>
+                  <DrawerTitle>Stored Submissions</DrawerTitle>
+                  <DrawerDescription>
+                    View and Edit Stored Submissions
+                  </DrawerDescription>
+                </DrawerHeader>
+                <div className="p-4 h-[calc(100vh-10rem)] overflow-auto">
                   <DataEditor onDataChange={handleDataChange} />
                 </div>
-              </DialogContent>
-            </Dialog>
+                <DrawerFooter>
+                  <DrawerClose asChild>
+                    <Button variant="outline">Close</Button>
+                  </DrawerClose>
+                </DrawerFooter>
+              </DrawerContent>
+            </Drawer>
           </div>
         </div>
       </section>
