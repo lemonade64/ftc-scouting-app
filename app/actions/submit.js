@@ -23,24 +23,6 @@ export async function submit(formData) {
     });
 
     const sheets = google.sheets({ version: "v4", auth });
-    //   validatedData.teamNumber,
-    //   validatedData.teamName,
-    //   validatedData.qualificationNumber,
-    //   validatedData.allianceColour,
-    //   validatedData.autoPreload,
-    //   validatedData.autoBasketHigh,
-    //   validatedData.autoBasketLow,
-    //   validatedData.autoChamberHigh,
-    //   validatedData.autoChamberLow,
-    //   validatedData.teleopBasketHigh,
-    //   validatedData.teleopBasketLow,
-    //   validatedData.teleopChamberHigh,
-    //   validatedData.teleopChamberLow,
-    //   JSON.stringify(validatedData.teleopCycleTimes),
-    //   validatedData.endgameAscentLevel,
-    //   validatedData.endgameAscentTime,
-    //   validatedData.extraNotes,
-    // ];
 
     const values = [
       formData.get("teamNumber"),
