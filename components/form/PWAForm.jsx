@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+
+import { useCallback, useEffect, useState } from "react";
 
 import { formSchema } from "@/lib/schema";
 import { clearData, loadData, saveData } from "@/lib/dataManager";
@@ -31,14 +32,13 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { toast } from "sonner";
+
 import { Upload, TrashIcon } from "lucide-react";
+
 import ScoutingForm from "@/components/form/ScoutingForm";
 import DataEditor from "@/components/form/DataEditor";
 
@@ -182,12 +182,6 @@ export default function PWAForm() {
                 )}
               </DrawerTrigger>
               <DrawerContent>
-                <DrawerHeader>
-                  <DrawerTitle>Stored Submissions</DrawerTitle>
-                  <DrawerDescription>
-                    View and Edit Stored Submissions
-                  </DrawerDescription>
-                </DrawerHeader>
                 <div className="p-4 h-[calc(100vh-10rem)] overflow-auto">
                   <DataEditor onDataChange={handleDataChange} />
                 </div>
