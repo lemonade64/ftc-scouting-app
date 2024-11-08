@@ -327,26 +327,17 @@ export default function DataEditor() {
           {data.map((entry, index) => (
             <Card key={index}>
               <CardHeader>
-                <CardTitle className="flex justify-between items-center">
-                  <div>
-                    <h3 className="text-xl">Entry {index + 1}</h3>
-                    <p className="text-md font-light pt-2">
-                      Team {entry.teamNumber}
-                    </p>
-                  </div>
-                  <Button
-                    variant="destructive"
-                    size="icon"
-                    onClick={() => handleDelete(index)}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
+                <CardTitle>
+                  <h3 className="text-xl">Entry {index + 1}</h3>
+                  <p className="text-md font-light pt-2">
+                    Team {entry.teamNumber}
+                  </p>
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="flex justify-between items-center gap-x-4 p-4">
                 <Dialog>
                   <DialogTrigger asChild>
-                    <Button variant="outline" className="w-full">
+                    <Button variant="outline" className="flex-grow">
                       View Data
                     </Button>
                   </DialogTrigger>
@@ -365,6 +356,13 @@ export default function DataEditor() {
                     </div>
                   </DialogContent>
                 </Dialog>
+                <Button
+                  variant="destructive"
+                  className="w-10 h-10 p-0"
+                  onClick={() => handleDelete(index)}
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
               </CardContent>
             </Card>
           ))}
