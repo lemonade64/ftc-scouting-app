@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, useMemo } from "react";
+
 import { calculateScores } from "@/lib/dashboardManager";
+
 import {
   Select,
   SelectContent,
@@ -10,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import OverviewComparison from "./OverviewComparison";
 import AutonomousComparison from "./AutonomousComparison";
 import TeleopComparison from "./TeleopComparison";

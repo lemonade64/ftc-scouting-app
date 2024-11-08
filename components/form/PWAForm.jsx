@@ -5,7 +5,6 @@ import { useCallback, useEffect, useState } from "react";
 import { formSchema } from "@/lib/schema";
 import { clearData, loadData, saveData } from "@/lib/dataManager";
 
-import { QRCodeSVG } from "qrcode.react";
 import { useForm } from "react-hook-form";
 import { useTheme } from "next-themes";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -35,6 +34,7 @@ import {
   DrawerFooter,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { QRCodeSVG } from "qrcode.react";
 import { toast } from "sonner";
 
 import { Upload, TrashIcon } from "lucide-react";

@@ -8,6 +8,7 @@ import { useScroll } from "@/hooks/useScroll";
 import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
+
 import Navigation from "@/components/Navigation";
 
 export default function Header({ scroll = true }) {

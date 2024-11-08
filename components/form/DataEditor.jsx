@@ -5,8 +5,6 @@ import { useCallback, useEffect, useState } from "react";
 import { loadData, updateData } from "@/lib/dataManager";
 import { formSchema } from "@/lib/schema";
 import { formatCamelCase } from "@/lib/utils";
-
-import { Scanner } from "@yudiel/react-qr-scanner";
 import * as z from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -38,6 +36,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { Scanner } from "@yudiel/react-qr-scanner";
 import { toast } from "sonner";
 
 import {
