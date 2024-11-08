@@ -2,14 +2,14 @@ import { featuresList } from "@/config/site";
 import { cn } from "@/lib/utils";
 
 import {
-  QrCode,
-  UserRoundCheck,
-  Github,
-  Cloud,
-  UserPen,
   ChartColumn,
+  Cloud,
+  Github,
   FileSpreadsheet,
   Heart,
+  QrCode,
+  UserPen,
+  UserRoundCheck,
 } from "lucide-react";
 
 function FeatureSection() {

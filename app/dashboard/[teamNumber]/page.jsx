@@ -5,7 +5,6 @@ import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
 
 import { useTeamData } from "@/hooks/useTeamData";
-import { QRCodeSVG } from "qrcode.react";
 import { toPng } from "html-to-image";
 import { useTheme } from "next-themes";
 
@@ -23,6 +22,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { QRCodeSVG } from "qrcode.react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 
