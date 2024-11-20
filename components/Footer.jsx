@@ -17,34 +17,40 @@ import {
 import { Github, Paintbrush } from "lucide-react";
 
 function capitalise(string) {
-  return string[0].toUpperCase() + string.slice(1);
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 export default function Footer() {
   const { setTheme, themes } = useTheme();
+
   const pathname = usePathname();
-  const isDocs = pathname.includes("/docs");
+  const isDocs = pathname.startsWith("/docs");
+  const isHome = pathname === "/";
+
+  if (isDocs || isHome) return null;
 
   return (
-    <footer className={`${isDocs ? "hidden" : ""} border-t border-muted`}>
+    <footer className="border-t border-muted">
       <div className="container flex items-center justify-between h-16 px-4 mx-auto">
         <span className="text-sm font-medium">{siteConfig.name.short}</span>
         <div className="flex items-center space-x-4">
           <Link href={siteConfig.links.repo} target="_blank">
             <Button variant="ghost" size="icon">
               <Github className="h-5 w-5" />
+              <span className="sr-only">GitHub repository</span>
             </Button>
           </Link>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon">
                 <Paintbrush className="h-5 w-5 text-primary" />
+                <span className="sr-only">Change theme</span>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              {themes.map((t) => (
-                <DropdownMenuItem key={t} onClick={() => setTheme(t)}>
-                  {capitalise(t)}
+              {themes.map((theme) => (
+                <DropdownMenuItem key={theme} onClick={() => setTheme(theme)}>
+                  {capitalise(theme)}
                 </DropdownMenuItem>
               ))}
             </DropdownMenuContent>

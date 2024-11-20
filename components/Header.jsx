@@ -16,31 +16,30 @@ export default function Header({ scroll = true }) {
   const scrolled = useScroll(50);
 
   const pathname = usePathname();
-
-  const isHome = pathname === "/";
   const isDocs = pathname.startsWith("/docs");
+  const isHome = pathname === "/";
 
   useEffect(() => {
-    function handleResize() {
+    const handleResize = () => {
       if (window.innerWidth >= 768) {
         setIsModalOpen(false);
       }
-    }
+    };
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  if (isDocs) return null;
+  if (isDocs || isHome) return null;
 
   return (
     <header
       className={cn(
         "z-40 w-full transition-all",
-        isHome ? "sticky top-0" : "border-b",
+        "border-b",
         isModalOpen
           ? "bg-background"
-          : scroll && isHome
+          : scroll
           ? scrolled
             ? "border-b bg-background/60 backdrop-blur-xl"
             : "bg-background/0"
@@ -48,17 +47,11 @@ export default function Header({ scroll = true }) {
       )}
     >
       <div className="container mx-auto flex h-16 items-center justify-between px-4 py-4">
-        <Navigation setIsModalOpen={setIsModalOpen} isHome={isHome} />
+        <Navigation setIsModalOpen={setIsModalOpen} isHome={false} />
         <div className="flex items-center space-x-3 pl-4">
-          {isHome ? (
-            <Button className="px-3" variant="default" size="lg">
-              <Link href="/scout">Get Started</Link>
-            </Button>
-          ) : (
-            <Button className="px-3" variant="default" size="lg">
-              <Link href="/dashboard">Dashboard</Link>
-            </Button>
-          )}
+          <Button className="px-3" variant="default" size="lg">
+            <Link href="/dashboard">Dashboard</Link>
+          </Button>
         </div>
       </div>
     </header>
