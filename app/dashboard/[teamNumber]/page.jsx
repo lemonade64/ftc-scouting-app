@@ -41,11 +41,11 @@ export default function TeamDashboard() {
   const teamNumber = params.teamNumber;
   const { teamData, isLoading } = useTeamData();
   const [showQRModal, setShowQRModal] = useState(false);
-  const [qrCodeData, setQrCodeData] = useState("");
+  const [QRCodeData, setQRCodeData] = useState("");
   const [activeTab, setActiveTab] = useState("overview");
   const dashboardRef = useRef(null);
-  const [qrBgColor, setQrBgColor] = useState("#ffffff");
-  const [qrFgColor, setQrFgColor] = useState("#000000");
+  const [QRBgColor, setQRBgColor] = useState("#ffffff");
+  const [QRFgColor, setQRFgColor] = useState("#000000");
 
   const currentTeamData =
     teamData?.filter((team) => team.teamNumber.toString() === teamNumber) || [];
@@ -58,8 +58,8 @@ export default function TeamDashboard() {
     const fg = getComputedStyle(variable)
       .getPropertyValue("--foreground")
       .trim();
-    setQrBgColor(`hsl(${bg})`);
-    setQrFgColor(`hsl(${fg})`);
+    setQRBgColor(`hsl(${bg})`);
+    setQRFgColor(`hsl(${fg})`);
   }, []);
 
   useEffect(() => {
@@ -82,8 +82,8 @@ export default function TeamDashboard() {
   }, [currentTeamData, teamNumber]);
 
   const handleQRCode = useCallback(() => {
-    const jsonData = JSON.stringify(currentTeamData);
-    setQrCodeData(jsonData);
+    const JSONData = JSON.stringify(currentTeamData);
+    setQRCodeData(JSONData);
     updateQRColours();
 
     toast.promise(new Promise((resolve) => setTimeout(resolve, 2000)), {
@@ -199,9 +199,9 @@ export default function TeamDashboard() {
           </DialogHeader>
           <div className="flex items-center justify-center py-6">
             <QRCodeSVG
-              value={qrCodeData}
-              bgColor={qrBgColor}
-              fgColor={qrFgColor}
+              value={QRCodeData}
+              bgColor={QRBgColor}
+              fgColor={QRFgColor}
               size={256}
             />
           </div>

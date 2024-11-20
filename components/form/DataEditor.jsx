@@ -152,7 +152,7 @@ function DataTable({ columns, data }) {
 export default function DataEditor() {
   const [showScanner, setShowScanner] = useState(false);
   const [showJSONModal, setShowJSONModal] = useState(false);
-  const [jsonInput, setJSONInput] = useState("");
+  const [JSONInput, setJSONInput] = useState("");
   const [data, setData] = useState([]);
   const [editingCell, setEditingCell] = useState(null);
   const [editingValue, setEditingValue] = useState("");
@@ -205,12 +205,12 @@ export default function DataEditor() {
   }, []);
 
   const handleJSONImport = useCallback(() => {
-    if (mergeData(jsonInput)) {
+    if (mergeData(JSONInput)) {
       setShowJSONModal(false);
       setJSONInput("");
       toast.success("Successfully Imported JSON");
     }
-  }, [jsonInput, data]);
+  }, [JSONInput, data]);
 
   const handleFileUpload = useCallback((event) => {
     const file = event.target.files?.[0];
@@ -226,14 +226,14 @@ export default function DataEditor() {
 
   const formatJSON = useCallback(() => {
     try {
-      const parsedJSON = JSON.parse(jsonInput);
+      const parsedJSON = JSON.parse(JSONInput);
       const formattedJSON = JSON.stringify(parsedJSON, null, 2);
       setJSONInput(formattedJSON);
       toast.success("JSON Formatted Successfully");
     } catch (error) {
       toast.error("Invalid JSON");
     }
-  }, [jsonInput]);
+  }, [JSONInput]);
 
   function handleEdit(index, key, value) {
     setEditingCell({ index, key });
@@ -422,7 +422,7 @@ export default function DataEditor() {
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label className="col-span-4">JSON Data</Label>
                   <Textarea
-                    value={jsonInput}
+                    value={JSONInput}
                     onChange={(e) => setJSONInput(e.target.value)}
                     className="col-span-4"
                     rows={10}
@@ -433,7 +433,7 @@ export default function DataEditor() {
                   <Label className="col-span-4">Upload JSON</Label>
                   <Input
                     type="file"
-                    accept=".json"
+                    accept=".JSON"
                     onChange={handleFileUpload}
                     className="col-span-4"
                   />
