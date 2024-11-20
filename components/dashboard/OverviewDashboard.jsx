@@ -25,14 +25,11 @@ import { Flag, Target, Users, Zap } from "lucide-react";
 const overviewChartConfig = {
   score: {
     label: "Points",
+    color: "hsl(var(--chart-1))",
   },
 };
 
-export default function OverviewTab({ currentTeamData = [] }) {
-  const radarChartConfig = {
-    Points: { label: "Points" },
-  };
-
+export default function OverviewDashboard({ currentTeamData = [] }) {
   const averageScores = currentTeamData.reduce((acc, match) => {
     const scores = calculateScores(match);
     Object.keys(scores).forEach((key) => {
@@ -50,13 +47,49 @@ export default function OverviewTab({ currentTeamData = [] }) {
     .map((match) => ({
       match: match.qualificationNumber,
       Points: calculateScores(match).totalScore,
-    })) || [{ match: "No Data", score: 0 }];
+    }));
 
   const radarData = [
-    { metric: "Auto Score", Points: averageScores.autoScore || 0 },
-    { metric: "Teleop Score", Points: averageScores.teleopScore || 0 },
-    { metric: "Endgame Score", Points: averageScores.endgameScore || 0 },
+    { metric: "Auto Score", points: averageScores.autoScore || 0 },
+    { metric: "Teleop Score", points: averageScores.teleopScore || 0 },
+    { metric: "Endgame Score", points: averageScores.endgameScore || 0 },
   ];
+
+  function getChart(chartType, data, dataKey, config) {
+    return chartType === "area" ? (
+      <ChartContainer config={config}>
+        <AreaChart data={data}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="match" />
+          <YAxis />
+          <ChartTooltip content={<ChartTooltipContent />} cursor={false} />
+          <Area
+            type="monotone"
+            dataKey={dataKey}
+            stroke={config.score.color}
+            fill={config.score.color}
+            fillOpacity={0.3}
+          />
+        </AreaChart>
+      </ChartContainer>
+    ) : chartType === "radar" ? (
+      <ChartContainer config={config}>
+        <RadarChart data={data}>
+          <PolarGrid />
+          <PolarAngleAxis dataKey="metric" />
+          <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+          <Radar
+            name={config.score.label}
+            dataKey={dataKey}
+            stroke={config.score.color}
+            fill={config.score.color}
+            fillOpacity={0.6}
+          />
+          <Legend />
+        </RadarChart>
+      </ChartContainer>
+    ) : null;
+  }
 
   return (
     <>
@@ -121,27 +154,7 @@ export default function OverviewTab({ currentTeamData = [] }) {
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <ChartContainer
-                config={overviewChartConfig}
-                className="min-h-[300px]"
-              >
-                <AreaChart data={performanceData}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="match" />
-                  <YAxis />
-                  <ChartTooltip
-                    content={<ChartTooltipContent />}
-                    cursor={false}
-                  />
-                  <Area
-                    type="monotone"
-                    dataKey="Points"
-                    stroke="hsl(var(--chart-1))"
-                    fill="hsl(var(--chart-1))"
-                    fillOpacity={0.3}
-                  />
-                </AreaChart>
-              </ChartContainer>
+              {getChart("area", performanceData, "Points", overviewChartConfig)}
             </ResponsiveContainer>
           </CardContent>
         </Card>
@@ -151,24 +164,7 @@ export default function OverviewTab({ currentTeamData = [] }) {
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <ChartContainer config={radarChartConfig}>
-                <RadarChart data={radarData}>
-                  <PolarGrid />
-                  <PolarAngleAxis dataKey="metric" />
-                  <ChartTooltip
-                    cursor={false}
-                    content={<ChartTooltipContent />}
-                  />
-                  <Radar
-                    name="Points"
-                    dataKey="Points"
-                    stroke="hsl(var(--chart-1))"
-                    fill="hsl(var(--chart-1))"
-                    fillOpacity={0.6}
-                  />
-                  <Legend />
-                </RadarChart>
-              </ChartContainer>
+              {getChart("radar", radarData, "points", overviewChartConfig)}
             </ResponsiveContainer>
           </CardContent>
         </Card>

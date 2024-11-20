@@ -2,22 +2,22 @@ import "./global.css";
 
 import type { Viewport } from "next";
 
-import { Analytics } from "@vercel/analytics/react";
 import { Poppins } from "next/font/google";
 import Script from "next/script";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { cookies } from "next/headers";
-
 import { metadata } from "@/app/metadata";
+
 import { siteConfig } from "@/config/site";
 
+import { Analytics } from "@vercel/analytics/react";
+import { RootProvider } from "fumadocs-ui/provider";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "sonner";
 
 import Header from "@/components/Header";
-import ReloadHandler from "@/components/ReloadHandler";
-import { RootProvider } from "fumadocs-ui/provider";
-import { ThemeProvider } from "@/components/theme-provider";
 import Footer from "@/components/Footer";
+import ReloadHandler from "@/components/ReloadHandler";
 
 const poppins = Poppins({
   subsets: ["latin"],

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -17,14 +18,13 @@ export default function ScoutingForm({ form, onSubmit }) {
   const [activeTab, setActiveTab] = useState("meta");
   const { control, setValue, trigger, formState, handleSubmit } = form;
 
-  const handleFormSubmit = useCallback(
-    async (e) => {
-      e.preventDefault();
-      const result = await trigger();
+  function handleFormSubmit(e) {
+    e.preventDefault();
+    trigger().then((result) => {
       if (result) {
         handleSubmit(onSubmit)();
       } else {
-        const errorFields = Object.keys(form.formState.errors)
+        const errorFields = Object.keys(formState.errors)
           .map((field) => field.replace(/([A-Z])/g, " $1").toLowerCase())
           .map((field) =>
             field
@@ -38,9 +38,23 @@ export default function ScoutingForm({ form, onSubmit }) {
           description: `Please complete the following fields: ${errorFields}`,
         });
       }
-    },
-    [trigger, handleSubmit, onSubmit, formState.errors]
-  );
+    });
+  }
+
+  function getTab(section) {
+    switch (section) {
+      case "Meta":
+        return <MetadataFields control={control} />;
+      case "Auto":
+        return <AutonomousFields control={control} setValue={setValue} />;
+      case "Teleop":
+        return <TeleopFields control={control} setValue={setValue} />;
+      case "Endgame":
+        return <EndgameFields control={control} />;
+      default:
+        return null;
+    }
+  }
 
   return (
     <Form {...form}>
@@ -62,14 +76,7 @@ export default function ScoutingForm({ form, onSubmit }) {
               key={section.toLowerCase()}
               value={section.toLowerCase()}
             >
-              {section === "Meta" && <MetadataFields control={control} />}
-              {section === "Auto" && (
-                <AutonomousFields control={control} setValue={setValue} />
-              )}
-              {section === "Teleop" && (
-                <TeleopFields control={control} setValue={setValue} />
-              )}
-              {section === "Endgame" && <EndgameFields control={control} />}
+              {getTab(section)}
             </TabsContent>
           ))}
         </Tabs>

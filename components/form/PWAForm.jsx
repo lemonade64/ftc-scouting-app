@@ -5,7 +5,6 @@ import { useCallback, useEffect, useState } from "react";
 import { formSchema } from "@/lib/schema";
 import { clearData, loadData, saveData } from "@/lib/dataManager";
 
-import { QRCodeSVG } from "qrcode.react";
 import { useForm } from "react-hook-form";
 import { useTheme } from "next-themes";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -35,6 +34,7 @@ import {
   DrawerFooter,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { QRCodeSVG } from "qrcode.react";
 import { toast } from "sonner";
 
 import { Upload, TrashIcon } from "lucide-react";
@@ -47,10 +47,10 @@ export default function PWAForm() {
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [showQRModal, setShowQRModal] = useState(false);
   const [showDataEditorDrawer, setShowDataEditorDrawer] = useState(false);
-  const [qrCodeData, setQrCodeData] = useState("");
+  const [QRCodeData, setQRCodeData] = useState("");
   const [storedSubmissions, setStoredSubmissions] = useState([]);
-  const [qrBgColor, setQrBgColor] = useState("#ffffff");
-  const [qrFgColor, setQrFgColor] = useState("#000000");
+  const [QRBgColor, setQRBgColor] = useState("#ffffff");
+  const [QRFgColor, setQRFgColor] = useState("#000000");
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -83,8 +83,8 @@ export default function PWAForm() {
     const fg = getComputedStyle(variable)
       .getPropertyValue("--foreground")
       .trim();
-    setQrBgColor(`hsl(${bg})`);
-    setQrFgColor(`hsl(${fg})`);
+    setQRBgColor(`hsl(${bg})`);
+    setQRFgColor(`hsl(${fg})`);
   }, []);
 
   useEffect(() => {
@@ -118,8 +118,8 @@ export default function PWAForm() {
   }, []);
 
   const handleExport = useCallback(() => {
-    const jsonData = JSON.stringify(storedSubmissions);
-    setQrCodeData(jsonData);
+    const JSONData = JSON.stringify(storedSubmissions);
+    setQRCodeData(JSONData);
     updateQRColors();
 
     toast.promise(new Promise((resolve) => setTimeout(resolve, 2000)), {
@@ -135,7 +135,7 @@ export default function PWAForm() {
   const handleClear = useCallback(() => {
     clearData();
     setStoredSubmissions([]);
-    setQrCodeData("");
+    setQRCodeData("");
     toast.success("Local Data Cleared Successfully");
   }, []);
 
@@ -175,11 +175,9 @@ export default function PWAForm() {
               onOpenChange={setShowDataEditorDrawer}
             >
               <DrawerTrigger asChild>
-                {storedSubmissions.length > 0 && (
-                  <Button variant="link">
-                    Stored Submissions: {storedSubmissions.length}
-                  </Button>
-                )}
+                <Button variant="link">
+                  Stored Submissions: {storedSubmissions.length}
+                </Button>
               </DrawerTrigger>
               <DrawerContent>
                 <div className="p-4 h-[calc(100vh-10rem)] overflow-auto">
@@ -221,9 +219,9 @@ export default function PWAForm() {
           </DialogHeader>
           <div className="flex items-center justify-center py-6">
             <QRCodeSVG
-              value={qrCodeData}
-              bgColor={qrBgColor}
-              fgColor={qrFgColor}
+              value={QRCodeData}
+              bgColor={QRBgColor}
+              fgColor={QRFgColor}
               size={256}
             />
           </div>

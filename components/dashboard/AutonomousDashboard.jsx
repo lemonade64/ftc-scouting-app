@@ -23,23 +23,23 @@ import {
 const autoChartConfig = {
   autoBasketHigh: {
     label: "Basket High",
+    color: "hsl(var(--chart-1))",
   },
   autoChamberHigh: {
     label: "Chamber High",
+    color: "hsl(var(--chart-2))",
   },
   autoBasketLow: {
     label: "Basket Low",
+    color: "hsl(var(--chart-3))",
   },
   autoChamberLow: {
     label: "Chamber Low",
+    color: "hsl(var(--chart-4))",
   },
 };
 
-export default function AutonomousTab({ currentTeamData = [] }) {
-  const radarChartConfig = {
-    Scores: { label: "Scores" },
-  };
-
+export default function AutonomousDashboard({ currentTeamData = [] }) {
   const preloadDistribution = currentTeamData.reduce((acc, match) => {
     acc[match.autoPreload] = (acc[match.autoPreload] || 0) + 1;
     return acc;
@@ -92,6 +92,40 @@ export default function AutonomousTab({ currentTeamData = [] }) {
     },
   ];
 
+  function getChart(chartType, data, dataKey, config) {
+    return chartType === "bar" ? (
+      <ChartContainer config={config}>
+        <BarChart data={data}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <ChartTooltip content={<ChartTooltipContent />} cursor={false} />
+          <Bar
+            dataKey={dataKey}
+            fill={config[Object.keys(config)[0]].color}
+            radius={[5, 5, 0, 0]}
+          />
+        </BarChart>
+      </ChartContainer>
+    ) : chartType === "radar" ? (
+      <ChartContainer config={config}>
+        <RadarChart data={data}>
+          <PolarGrid />
+          <PolarAngleAxis dataKey="metric" />
+          <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+          <Radar
+            name="Scores"
+            dataKey={dataKey}
+            stroke={config[Object.keys(config)[0]].color}
+            fill={config[Object.keys(config)[0]].color}
+            fillOpacity={0.6}
+          />
+          <Legend />
+        </RadarChart>
+      </ChartContainer>
+    ) : null;
+  }
+
   return (
     <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
       <Card>
@@ -100,24 +134,7 @@ export default function AutonomousTab({ currentTeamData = [] }) {
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
-            <ChartContainer config={radarChartConfig}>
-              <RadarChart data={radarData}>
-                <PolarGrid />
-                <PolarAngleAxis dataKey="metric" />
-                <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent />}
-                />
-                <Radar
-                  name="Scores"
-                  dataKey="Scores"
-                  stroke="hsl(var(--chart-1))"
-                  fill="hsl(var(--chart-1))"
-                  fillOpacity={0.6}
-                />
-                <Legend />
-              </RadarChart>
-            </ChartContainer>
+            {getChart("radar", radarData, "Scores", autoChartConfig)}
           </ResponsiveContainer>
         </CardContent>
       </Card>
@@ -127,22 +144,7 @@ export default function AutonomousTab({ currentTeamData = [] }) {
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
-            <ChartContainer config={autoChartConfig} className="min-h-[300px]">
-              <BarChart data={preloadData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <ChartTooltip
-                  content={<ChartTooltipContent />}
-                  cursor={false}
-                />
-                <Bar
-                  dataKey="Occurrences"
-                  fill="hsl(var(--chart-3))"
-                  radius={[5, 5, 0, 0]}
-                />
-              </BarChart>
-            </ChartContainer>
+            {getChart("bar", preloadData, "Occurrences", autoChartConfig)}
           </ResponsiveContainer>
         </CardContent>
       </Card>
@@ -152,22 +154,7 @@ export default function AutonomousTab({ currentTeamData = [] }) {
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
-            <ChartContainer config={autoChartConfig} className="min-h-[300px]">
-              <BarChart data={basketData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <ChartTooltip
-                  content={<ChartTooltipContent />}
-                  cursor={false}
-                />
-                <Bar
-                  dataKey="Scores"
-                  fill="hsl(var(--chart-1))"
-                  radius={[5, 5, 0, 0]}
-                />
-              </BarChart>
-            </ChartContainer>
+            {getChart("bar", basketData, "Scores", autoChartConfig)}
           </ResponsiveContainer>
         </CardContent>
       </Card>
@@ -177,22 +164,7 @@ export default function AutonomousTab({ currentTeamData = [] }) {
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
-            <ChartContainer config={autoChartConfig} className="min-h-[300px]">
-              <BarChart data={chamberData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <ChartTooltip
-                  content={<ChartTooltipContent />}
-                  cursor={false}
-                />
-                <Bar
-                  dataKey="Scores"
-                  fill="hsl(var(--chart-2))"
-                  radius={[5, 5, 0, 0]}
-                />
-              </BarChart>
-            </ChartContainer>
+            {getChart("bar", chamberData, "Scores", autoChartConfig)}
           </ResponsiveContainer>
         </CardContent>
       </Card>

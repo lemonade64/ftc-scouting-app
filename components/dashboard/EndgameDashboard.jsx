@@ -1,4 +1,3 @@
-import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   ChartContainer,
@@ -125,7 +124,7 @@ export default function EndgameTab({ currentTeamData = [] }) {
                   type="monotone"
                   dataKey="ascentTime"
                   stroke="hsl(var(--chart-2))"
-                  fill="hsl(var(--chart-2))"
+                  fill="hsl(var(--chart-1))"
                   fillOpacity={0.3}
                 />
               </AreaChart>

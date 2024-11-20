@@ -4,14 +4,16 @@ import "./global.css";
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { Analytics } from "@vercel/analytics/react";
 import { Poppins } from "next/font/google";
 import Script from "next/script";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import { siteConfig, errorLinks } from "@/config/site";
 
+import { Analytics } from "@vercel/analytics/react";
 import { Button } from "@/components/ui/button";
+import { RootProvider } from "fumadocs-ui/provider";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "sonner";
 
 import {
@@ -23,8 +25,6 @@ import {
 } from "lucide-react";
 
 import Header from "@/components/Header";
-import { RootProvider } from "fumadocs-ui/provider";
-import { ThemeProvider } from "@/components/theme-provider";
 import Footer from "@/components/Footer";
 
 const poppins = Poppins({
