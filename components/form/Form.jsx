@@ -183,7 +183,7 @@ export default function Form() {
   }, []);
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto py-10 min-h-[calc(100vh-8rem)]">
       <section className="w-full max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold text-center">Scouting Form</h1>
         <p className="text-xl text-center">
