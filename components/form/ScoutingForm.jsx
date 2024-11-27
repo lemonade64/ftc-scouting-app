@@ -1,10 +1,13 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useState, useEffect } from "react";
+
+import { formSchema } from "@/lib/schema";
 
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 
 import MetadataFields from "./MetadataFields";
@@ -14,9 +17,35 @@ import EndgameFields from "./EndgameFields";
 
 const FORM_SECTIONS = ["Meta", "Auto", "Teleop", "Endgame"];
 
+const requiredFields = Object.entries(formSchema.shape)
+  .filter(([_, fieldSchema]) => fieldSchema._def.typeName !== "ZodOptional")
+  .map(([fieldName]) => fieldName);
+
 export default function ScoutingForm({ form, onSubmit }) {
   const [activeTab, setActiveTab] = useState("meta");
-  const { control, setValue, trigger, formState, handleSubmit } = form;
+  const [progress, setProgress] = useState(0);
+  const { control, setValue, trigger, formState, handleSubmit, watch } = form;
+
+  useEffect(() => {
+    const subscription = watch((value, { name, type }) => {
+      if (type === "change") {
+        updateProgress(value);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [watch]);
+
+  function updateProgress(formValues) {
+    const totalRequiredFields = requiredFields.length;
+    const completedRequiredFields = requiredFields.filter((fieldName) => {
+      const value = formValues[fieldName];
+      return value !== undefined && value !== "" && value !== null;
+    }).length;
+    const newProgress = Math.round(
+      (completedRequiredFields / totalRequiredFields) * 100
+    );
+    setProgress(newProgress);
+  }
 
   function handleFormSubmit(e) {
     e.preventDefault();
@@ -59,6 +88,7 @@ export default function ScoutingForm({ form, onSubmit }) {
   return (
     <Form {...form}>
       <form onSubmit={handleFormSubmit} className="space-y-6">
+        <Progress value={progress} className="w-full" />
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-4 mb-4">
             {FORM_SECTIONS.map((tab) => (
