@@ -30,7 +30,7 @@ export default function Footer() {
   if (isDocs || isHome) return null;
 
   return (
-    <footer className="border-t border-muted">
+    <footer className="border-t">
       <div className="container flex items-center justify-between h-16 px-4 mx-auto">
         <span className="text-sm font-medium">{siteConfig.name.short}</span>
         <div className="flex items-center space-x-4">
