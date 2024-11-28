@@ -28,12 +28,12 @@ import { toast } from "sonner";
 
 import { Copy, Download, QrCode } from "lucide-react";
 
-import OverviewDashboard from "@/components/dashboard/OverviewDashboard";
-import AutonomousDashboard from "@/components/dashboard/AutonomousDashboard";
-import TeleopDashboard from "@/components/dashboard/TeleopDashboard";
-import EndgameDashboard from "@/components/dashboard/EndgameDashboard";
-import TeamComparison from "@/components/dashboard/TeamComparison";
-import { DashboardSkeleton } from "@/components/dashboard/DashboardSkeleton";
+import OverviewDashboard from "@/components/dashboard/overview-dashboard";
+import AutonomousDashboard from "@/components/dashboard/autonomous-dashboard";
+import TeleopDashboard from "@/components/dashboard/teleop-dashboard";
+import EndgameDashboard from "@/components/dashboard/endgame-dashboard";
+import TeamComparison from "@/components/dashboard/team-comparison";
+import { DashboardSkeleton } from "@/components/dashboard/dashboard-skeleton";
 
 export default function TeamDashboard() {
   const { theme, systemTheme } = useTheme();

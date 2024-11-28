@@ -1,4 +1,4 @@
-import { calculateScores, formatNumber } from "@/lib/dashboardManager";
+import { calculateScores, formatNumber } from "@/lib/dashboard";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {

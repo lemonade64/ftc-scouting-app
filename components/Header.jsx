@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 import { Button } from "@/components/ui/button";
 
-import Navigation from "@/components/Navigation";
+import Navigation from "@/components/navigation";
 
 export default function Header({ scroll = true }) {
   const [isModalOpen, setIsModalOpen] = useState(false);

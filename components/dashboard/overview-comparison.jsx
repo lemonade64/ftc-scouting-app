@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { formatNumber } from "@/lib/dashboardManager";
+import { formatNumber } from "@/lib/dashboard";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {

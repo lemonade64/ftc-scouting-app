@@ -1,4 +1,4 @@
-import { getAverageData } from "@/lib/dashboardManager";
+import { getAverageData } from "@/lib/dashboard";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {

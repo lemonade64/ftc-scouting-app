@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 
 import { useTeamData } from "@/hooks/useTeamData";
-import { calculateScores } from "@/lib/dashboardManager";
+import { calculateScores } from "@/lib/dashboard";
 
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -22,7 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { RootSkeleton } from "@/components/dashboard/DashboardSkeleton";
+import { RootSkeleton } from "@/components/dashboard/dashboard-skeleton";
 
 const COLORS = [
   "hsl(var(--chart-1))",

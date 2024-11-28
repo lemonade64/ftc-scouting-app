@@ -15,9 +15,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "sonner";
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import ReloadHandler from "@/components/ReloadHandler";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -101,7 +100,6 @@ export default function RootLayout({
           <Analytics />
           <SpeedInsights />
           <Toaster richColors position="bottom-center" />
-          <ReloadHandler />
           <Footer />
         </ThemeProvider>
       </body>

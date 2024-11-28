@@ -1,4 +1,4 @@
-import { getAverageData } from "@/lib/dashboardManager";
+import { getAverageData } from "@/lib/dashboard";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -20,70 +20,59 @@ import {
   YAxis,
 } from "recharts";
 
-export default function TeleopComparison({
+export default function AutonomousComparison({
   currentTeamData,
   comparisonTeamData,
   currentTeam,
   comparisonTeam,
-  currentTeamMetrics,
-  comparisonTeamMetrics,
   chartConfig,
 }) {
   const radarData = [
     {
       metric: "Basket High",
-      [currentTeam]: getAverageData(currentTeamData, "teleopBasketHigh"),
-      [comparisonTeam]: getAverageData(comparisonTeamData, "teleopBasketHigh"),
+      [currentTeam]: getAverageData(currentTeamData, "autoBasketHigh"),
+      [comparisonTeam]: getAverageData(comparisonTeamData, "autoBasketHigh"),
     },
     {
       metric: "Chamber High",
-      [currentTeam]: getAverageData(currentTeamData, "teleopChamberHigh"),
-      [comparisonTeam]: getAverageData(comparisonTeamData, "teleopChamberHigh"),
+      [currentTeam]: getAverageData(currentTeamData, "autoChamberHigh"),
+      [comparisonTeam]: getAverageData(comparisonTeamData, "autoChamberHigh"),
     },
-
     {
       metric: "Basket Low",
-      [currentTeam]: getAverageData(currentTeamData, "teleopBasketLow"),
-      [comparisonTeam]: getAverageData(comparisonTeamData, "teleopBasketLow"),
+      [currentTeam]: getAverageData(currentTeamData, "autoBasketLow"),
+      [comparisonTeam]: getAverageData(comparisonTeamData, "autoBasketLow"),
     },
     {
       metric: "Chamber Low",
-      [currentTeam]: getAverageData(currentTeamData, "teleopChamberLow"),
-      [comparisonTeam]: getAverageData(comparisonTeamData, "teleopChamberLow"),
+      [currentTeam]: getAverageData(currentTeamData, "autoChamberLow"),
+      [comparisonTeam]: getAverageData(comparisonTeamData, "autoChamberLow"),
     },
   ];
 
   const basketData = [
     {
       name: "High",
-      [currentTeam]: getAverageData(currentTeamData, "teleopBasketHigh"),
-      [comparisonTeam]: getAverageData(comparisonTeamData, "teleopBasketHigh"),
+      [currentTeam]: getAverageData(currentTeamData, "autoBasketHigh"),
+      [comparisonTeam]: getAverageData(comparisonTeamData, "autoBasketHigh"),
     },
     {
       name: "Low",
-      [currentTeam]: getAverageData(currentTeamData, "teleopBasketLow"),
-      [comparisonTeam]: getAverageData(comparisonTeamData, "teleopBasketLow"),
+      [currentTeam]: getAverageData(currentTeamData, "autoBasketLow"),
+      [comparisonTeam]: getAverageData(comparisonTeamData, "autoBasketLow"),
     },
   ];
 
   const chamberData = [
     {
       name: "High",
-      [currentTeam]: getAverageData(currentTeamData, "teleopChamberHigh"),
-      [comparisonTeam]: getAverageData(comparisonTeamData, "teleopChamberHigh"),
+      [currentTeam]: getAverageData(currentTeamData, "autoChamberHigh"),
+      [comparisonTeam]: getAverageData(comparisonTeamData, "autoChamberHigh"),
     },
     {
       name: "Low",
-      [currentTeam]: getAverageData(currentTeamData, "teleopChamberLow"),
-      [comparisonTeam]: getAverageData(comparisonTeamData, "teleopChamberLow"),
-    },
-  ];
-
-  const cycleTimeData = [
-    {
-      name: "Average Cycle Time",
-      [currentTeam]: currentTeamMetrics.averageCycleTime,
-      [comparisonTeam]: comparisonTeamMetrics.averageCycleTime,
+      [currentTeam]: getAverageData(currentTeamData, "autoChamberLow"),
+      [comparisonTeam]: getAverageData(comparisonTeamData, "autoChamberLow"),
     },
   ];
 
@@ -91,7 +80,7 @@ export default function TeleopComparison({
     <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
       <Card>
         <CardHeader>
-          <CardTitle>Teleop Overview</CardTitle>
+          <CardTitle>Autonomous Overview</CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={300}>
@@ -119,39 +108,6 @@ export default function TeleopComparison({
                 />
                 <Legend />
               </RadarChart>
-            </ChartContainer>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle>Average Cycle Time</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
-            <ChartContainer config={chartConfig}>
-              <BarChart data={cycleTimeData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <ChartTooltip
-                  content={<ChartTooltipContent />}
-                  cursor={false}
-                />
-                <Bar
-                  dataKey={currentTeam}
-                  fill={chartConfig[currentTeam].color}
-                  name={chartConfig[currentTeam].label}
-                  radius={[5, 5, 0, 0]}
-                />
-                <Bar
-                  dataKey={comparisonTeam}
-                  fill={chartConfig[comparisonTeam].color}
-                  name={chartConfig[comparisonTeam].label}
-                  radius={[5, 5, 0, 0]}
-                />
-                <Legend />
-              </BarChart>
             </ChartContainer>
           </ResponsiveContainer>
         </CardContent>

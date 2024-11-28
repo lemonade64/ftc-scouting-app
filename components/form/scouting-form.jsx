@@ -10,10 +10,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 
-import MetadataFields from "./MetadataFields";
-import AutonomousFields from "./AutonomousFields";
-import TeleopFields from "./TeleopFields";
-import EndgameFields from "./EndgameFields";
+import MetadataFields from "./metadata-fields";
+import AutonomousFields from "./autonomous-fields";
+import TeleopFields from "./teleop-fields";
+import EndgameFields from "./endgame-fields";
 
 const FORM_SECTIONS = ["Meta", "Auto", "Teleop", "Endgame"];
 

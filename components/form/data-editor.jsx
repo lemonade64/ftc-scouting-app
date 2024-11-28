@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 
-import { loadData, updateData } from "@/lib/dataManager";
+import { loadData, updateData } from "@/lib/data";
 import { formSchema } from "@/lib/schema";
 import { formatCamelCase } from "@/lib/utils";
 import * as z from "zod";

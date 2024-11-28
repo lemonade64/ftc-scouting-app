@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { formSchema } from "@/lib/schema";
-import { clearData, loadData, saveData } from "@/lib/dataManager";
+import { clearData, loadData, saveData } from "@/lib/data";
 
 import { useForm } from "react-hook-form";
 import { useTheme } from "next-themes";
@@ -40,8 +40,8 @@ import { toast } from "sonner";
 
 import { TrashIcon, Settings, Upload } from "lucide-react";
 
-import ScoutingForm from "@/components/form/ScoutingForm";
-import DataEditor from "@/components/form/DataEditor";
+import ScoutingForm from "@/components/form/scouting-form";
+import DataEditor from "@/components/form/data-editor";
 
 export default function Form() {
   const { theme, systemTheme } = useTheme();
