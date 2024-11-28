@@ -1,4 +1,4 @@
-import PWAForm from "@/components/form/PWAForm";
+import PWAForm from "@/components/form/pwa-form";
 
 export default function Scout() {
   return (
