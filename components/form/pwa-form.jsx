@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { formSchema } from "@/lib/schema";
-import { clearData, loadData, saveData } from "@/lib/dataManager";
+import { clearData, loadData, saveData } from "@/lib/data";
 
 import { useForm } from "react-hook-form";
 import { useTheme } from "next-themes";
@@ -39,8 +39,8 @@ import { toast } from "sonner";
 
 import { Upload, TrashIcon } from "lucide-react";
 
-import ScoutingForm from "@/components/form/ScoutingForm";
-import DataEditor from "@/components/form/DataEditor";
+import ScoutingForm from "@/components/form/scouting-form";
+import DataEditor from "@/components/form/data-editor";
 
 export default function PWAForm() {
   const { theme, systemTheme } = useTheme();
@@ -144,7 +144,7 @@ export default function PWAForm() {
   }, []);
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto py-10 min-h-[calc(100vh-8rem)]">
       <section className="w-full max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold text-center">PWA Scouting Form</h1>
         <p className="text-xl text-center">
