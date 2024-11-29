@@ -35,10 +35,12 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { QRCodeSVG } from "qrcode.react";
+import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 
-import { TrashIcon, Settings, Upload } from "lucide-react";
+import { Settings, FileTextIcon, TrashIcon, Upload } from "lucide-react";
 
 import ScoutingForm from "@/components/form/scouting-form";
 import DataEditor from "@/components/form/data-editor";
@@ -54,6 +56,8 @@ export default function Form() {
   const [QRBgColor, setQRBgColor] = useState("#ffffff");
   const [QRFgColor, setQRFgColor] = useState("#000000");
   const [spreadsheetID, setSpreadsheetID] = useState("");
+  const [teams, setTeams] = useState({});
+  const [JSONInput, setJSONInput] = useState("");
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -96,6 +100,10 @@ export default function Form() {
     const storedSpreadsheetID = localStorage.getItem("spreadsheetID");
     if (storedSpreadsheetID) {
       setSpreadsheetID(storedSpreadsheetID);
+    }
+    const storedTeams = localStorage.getItem("teams");
+    if (storedTeams) {
+      setTeams(JSON.parse(storedTeams));
     }
     window.addEventListener("theme-change", updateQRColors);
     return () => window.removeEventListener("theme-change", updateQRColors);
@@ -181,6 +189,42 @@ export default function Form() {
   const handleDataChange = useCallback((newData) => {
     setStoredSubmissions(newData);
   }, []);
+
+  const handleFileUpload = useCallback((event) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const content = e.target.result;
+        setJSONInput(content);
+      };
+      reader.readAsText(file);
+    }
+  }, []);
+
+  const formatJSON = useCallback(() => {
+    try {
+      const parsedJSON = JSON.parse(JSONInput);
+      const formattedJSON = JSON.stringify(parsedJSON, null, 2);
+      setJSONInput(formattedJSON);
+      toast.success("JSON Formatted Successfully");
+    } catch (error) {
+      toast.error("Invalid JSON");
+    }
+  }, [JSONInput]);
+
+  const handleJSONImport = useCallback(() => {
+    try {
+      const parsedData = JSON.parse(JSONInput);
+      setTeams(parsedData);
+      localStorage.setItem("teams", JSON.stringify(parsedData));
+      setShowSpreadsheetIDDialog(false);
+      setJSONInput("");
+      toast.success("Teams Imported Successfully");
+    } catch (error) {
+      toast.error("Error parsing JSON file");
+    }
+  }, [JSONInput]);
 
   return (
     <div className="container mx-auto py-10 min-h-[calc(100vh-8rem)]">
@@ -280,20 +324,48 @@ export default function Form() {
         open={showSpreadsheetIDDialog}
         onOpenChange={setShowSpreadsheetIDDialog}
       >
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Spreadsheet ID</DialogTitle>
-            <DialogDescription>
-              Required for Google Sheets Integration{" "}
-              <span className="font-bold">(optional)</span>
-            </DialogDescription>
+            <DialogTitle>Spreadsheet ID and Teams</DialogTitle>
           </DialogHeader>
-          <div className="flex gap-x-4">
-            <Input
-              value={spreadsheetID}
-              onChange={(e) => setSpreadsheetID(e.target.value)}
-            />
-            <Button onClick={handleSpreadsheetIDSave}>Save</Button>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label className="col-span-4">Spreadsheet ID</Label>
+              <Input
+                value={spreadsheetID}
+                onChange={(e) => setSpreadsheetID(e.target.value)}
+                className="col-span-3"
+              />
+              <Button onClick={handleSpreadsheetIDSave} className="col-span-1">
+                Save
+              </Button>
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label className="col-span-4">Teams</Label>
+              <Textarea
+                value={JSONInput}
+                onChange={(e) => setJSONInput(e.target.value)}
+                className="col-span-4"
+                rows={10}
+                placeholder='{"teamNumber":"teamName","11148":"Barker Redbacks",...}'
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label className="col-span-4">Upload JSON</Label>
+              <Input
+                type="file"
+                accept=".json"
+                onChange={handleFileUpload}
+                className="col-span-4"
+              />
+            </div>
+          </div>
+          <div className="flex justify-between">
+            <Button onClick={formatJSON} variant="outline">
+              <FileTextIcon className="mr-2 h-4 w-4" />
+              Format JSON
+            </Button>
+            <Button onClick={handleJSONImport}>Import Teams</Button>
           </div>
         </DialogContent>
       </Dialog>

@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import {
   FormControl,
   FormField,
@@ -14,7 +16,23 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export default function MetadataFields({ control }) {
+export default function MetadataFields({ control, setValue, watch }) {
+  const [teams, setTeams] = useState({});
+  const teamNumber = watch("teamNumber");
+
+  useEffect(() => {
+    const storedTeams = localStorage.getItem("teams");
+    if (storedTeams) {
+      setTeams(JSON.parse(storedTeams));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (teamNumber && teams[teamNumber]) {
+      setValue("teamName", teams[teamNumber]);
+    }
+  }, [teamNumber, setValue, teams]);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       <FormField
@@ -28,11 +46,12 @@ export default function MetadataFields({ control }) {
                 type="number"
                 placeholder="Enter Team Number"
                 {...field}
-                onChange={(e) =>
-                  field.onChange(
-                    e.target.value === "" ? undefined : +e.target.value
-                  )
-                }
+                onChange={(e) => {
+                  const value =
+                    e.target.value === "" ? undefined : +e.target.value;
+                  field.onChange(value);
+                  setValue("teamName", teams[value] ? teams[value] : "");
+                }}
                 autoComplete="off"
               />
             </FormControl>

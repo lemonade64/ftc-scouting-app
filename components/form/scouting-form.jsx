@@ -73,7 +73,9 @@ export default function ScoutingForm({ form, onSubmit }) {
   function getTab(section) {
     switch (section) {
       case "Meta":
-        return <MetadataFields control={control} />;
+        return (
+          <MetadataFields control={control} setValue={setValue} watch={watch} />
+        );
       case "Auto":
         return <AutonomousFields control={control} setValue={setValue} />;
       case "Teleop":
