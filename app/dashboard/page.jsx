@@ -148,7 +148,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="container mx-auto p-4 mb-10">
+    <div className="container mx-auto p-4 pb-10 min-h-[calc(100vh-8rem)]">
       <h1 className="text-3xl font-bold mb-6">Team Overview</h1>
       <div className="flex justify-between mb-6 gap-4">
         <Input
