@@ -24,7 +24,7 @@ import {
 
 import { RootSkeleton } from "@/components/dashboard/dashboard-skeleton";
 
-const COLORS = [
+const COLOURS = [
   "hsl(var(--chart-1))",
   "hsl(var(--chart-2))",
   "hsl(var(--chart-3))",
@@ -40,15 +40,15 @@ function ScoreDonutChart({ autoScore, teleopScore, endgameScore, totalScore }) {
   const chartConfig = {
     auto: {
       label: "Auto",
-      color: COLORS[0],
+      color: COLOURS[0],
     },
     teleop: {
       label: "Teleop",
-      color: COLORS[1],
+      color: COLOURS[1],
     },
     endgame: {
       label: "Endgame",
-      color: COLORS[2],
+      color: COLOURS[2],
     },
   };
 
@@ -71,7 +71,7 @@ function ScoreDonutChart({ autoScore, teleopScore, endgameScore, totalScore }) {
             {data.map((entry, index) => (
               <Cell
                 key={`cell-${index}`}
-                fill={COLORS[index % COLORS.length]}
+                fill={COLOURS[index % COLOURS.length]}
               />
             ))}
             <Label
@@ -149,7 +149,7 @@ export default function Dashboard() {
 
   return (
     <div className="container mx-auto p-4 pb-10 min-h-[calc(100vh-8rem)]">
-      <h1 className="text-3xl font-bold mb-6">Team Overview</h1>
+      <h1 className="text-3xl font-bold mb-6">Teams</h1>
       <div className="flex justify-between mb-6 gap-4">
         <Input
           placeholder="Search Teams..."
@@ -171,7 +171,7 @@ export default function Dashboard() {
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filteredAndSortedTeams.map((team) => (
-          <Link href={`/dashboard/${team.teamNumber}`} key={team.teamNumber}>
+          <Link href={`/teams/${team.teamNumber}`} key={team.teamNumber}>
             <Card className="hover:bg-accent/30 transition-colors">
               <CardContent className="p-4">
                 <h2 className="text-xl font-semibold">
@@ -186,19 +186,28 @@ export default function Dashboard() {
                 />
                 <div className="grid grid-cols-3 gap-2 text-sm mt-2">
                   <div className="text-center">
-                    <div className="font-semibold" style={{ color: COLORS[0] }}>
+                    <div
+                      className="font-semibold"
+                      style={{ color: COLOURS[0] }}
+                    >
                       Auto
                     </div>
                     <div>{team.autoScore}</div>
                   </div>
                   <div className="text-center">
-                    <div className="font-semibold" style={{ color: COLORS[1] }}>
+                    <div
+                      className="font-semibold"
+                      style={{ color: COLOURS[1] }}
+                    >
                       Teleop
                     </div>
                     <div>{team.teleopScore}</div>
                   </div>
                   <div className="text-center">
-                    <div className="font-semibold" style={{ color: COLORS[2] }}>
+                    <div
+                      className="font-semibold"
+                      style={{ color: COLOURS[2] }}
+                    >
                       Endgame
                     </div>
                     <div>{team.endgameScore}</div>

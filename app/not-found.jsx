@@ -33,8 +33,8 @@ export default function NotFound() {
             ? {
                 ...link,
                 name: "Dashboard",
-                href: "/dashboard",
-                description: "Visit your dashboard",
+                href: "/teams",
+                description: "View Dashboard",
               }
             : link
         )

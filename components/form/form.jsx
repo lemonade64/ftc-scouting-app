@@ -54,8 +54,8 @@ export default function Form() {
   const [showDataEditorDrawer, setShowDataEditorDrawer] = useState(false);
   const [QRCodeData, setQRCodeData] = useState("");
   const [storedSubmissions, setStoredSubmissions] = useState([]);
-  const [QRBgColor, setQRBgColor] = useState("#ffffff");
-  const [QRFgColor, setQRFgColor] = useState("#000000");
+  const [QRBgColour, setQRBgColour] = useState("#ffffff");
+  const [QRFgColour, setQRFgColour] = useState("#000000");
   const [spreadsheetID, setSpreadsheetID] = useState("");
   const [teams, setTeams] = useState({});
   const [JSONInput, setJSONInput] = useState("");
@@ -84,7 +84,7 @@ export default function Form() {
     },
   });
 
-  const updateQRColors = useCallback(() => {
+  const updateQRColours = useCallback(() => {
     const variable = document.documentElement;
     const bg = getComputedStyle(variable)
       .getPropertyValue("--background")
@@ -92,13 +92,13 @@ export default function Form() {
     const fg = getComputedStyle(variable)
       .getPropertyValue("--foreground")
       .trim();
-    setQRBgColor(`hsl(${bg})`);
-    setQRFgColor(`hsl(${fg})`);
+    setQRBgColour(`hsl(${bg})`);
+    setQRFgColour(`hsl(${fg})`);
   }, []);
 
   useEffect(() => {
     setStoredSubmissions(loadData());
-    updateQRColors();
+    updateQRColours();
     const storedSpreadsheetID = localStorage.getItem("spreadsheetID");
     if (storedSpreadsheetID) {
       setSpreadsheetID(storedSpreadsheetID);
@@ -107,13 +107,13 @@ export default function Form() {
     if (storedTeams) {
       setTeams(JSON.parse(storedTeams));
     }
-    window.addEventListener("theme-change", updateQRColors);
-    return () => window.removeEventListener("theme-change", updateQRColors);
-  }, [updateQRColors]);
+    window.addEventListener("theme-change", updateQRColours);
+    return () => window.removeEventListener("theme-change", updateQRColours);
+  }, [updateQRColours]);
 
   useEffect(() => {
-    updateQRColors();
-  }, [theme, systemTheme, updateQRColors]);
+    updateQRColours();
+  }, [theme, systemTheme, updateQRColours]);
 
   const onSubmit = useCallback(
     async (values) => {
@@ -163,7 +163,7 @@ export default function Form() {
   const handleExport = useCallback(() => {
     const JSONData = JSON.stringify(storedSubmissions);
     setQRCodeData(JSONData);
-    updateQRColors();
+    updateQRColours();
 
     toast.promise(new Promise((resolve) => setTimeout(resolve, 2000)), {
       loading: "Generating QR Code...",
@@ -173,7 +173,7 @@ export default function Form() {
       },
       error: "Failed to Generate QR Code",
     });
-  }, [storedSubmissions, updateQRColors]);
+  }, [storedSubmissions, updateQRColours]);
 
   const handleClear = useCallback(() => {
     clearData();
@@ -311,8 +311,8 @@ export default function Form() {
           <div className="flex items-center justify-center py-6">
             <QRCodeSVG
               value={QRCodeData}
-              bgColor={QRBgColor}
-              fgColor={QRFgColor}
+              bgColor={QRBgColour}
+              fgColor={QRFgColour}
               size={256}
             />
           </div>

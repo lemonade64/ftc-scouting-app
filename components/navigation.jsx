@@ -77,7 +77,7 @@ function MobileNavigation({ setIsModalOpen, isHome }) {
                 </Button>
               ) : (
                 <Button className="w-full" size="lg">
-                  <Link href="/dashboard">Dashboard</Link>
+                  <Link href="/teams">Teams</Link>
                 </Button>
               )}
             </DrawerFooter>

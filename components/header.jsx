@@ -50,7 +50,7 @@ export default function Header({ scroll = true }) {
         <Navigation setIsModalOpen={setIsModalOpen} isHome={false} />
         <div className="flex items-center space-x-3 pl-4">
           <Button className="px-3" variant="default" size="lg">
-            <Link href="/dashboard">Dashboard</Link>
+            <Link href="/teams">Dashboard</Link>
           </Button>
         </div>
       </div>

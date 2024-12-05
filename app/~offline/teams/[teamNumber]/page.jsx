@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, useRef, useEffect } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import { notFound, useParams } from "next/navigation";
 
@@ -44,8 +44,8 @@ export default function TeamDashboard() {
   const [QRCodeData, setQRCodeData] = useState("");
   const [activeTab, setActiveTab] = useState("overview");
   const dashboardRef = useRef(null);
-  const [QRBgColor, setQRBgColor] = useState("#ffffff");
-  const [QRFgColor, setQRFgColor] = useState("#000000");
+  const [QRBgColour, setQRBgColour] = useState("#ffffff");
+  const [QRFgColour, setQRFgColour] = useState("#000000");
 
   const currentTeamData =
     teamData?.filter((team) => team.teamNumber.toString() === teamNumber) || [];
@@ -58,8 +58,8 @@ export default function TeamDashboard() {
     const fg = getComputedStyle(variable)
       .getPropertyValue("--foreground")
       .trim();
-    setQRBgColor(`hsl(${bg})`);
-    setQRFgColor(`hsl(${fg})`);
+    setQRBgColour(`hsl(${bg})`);
+    setQRFgColour(`hsl(${fg})`);
   }, []);
 
   useEffect(() => {
@@ -108,10 +108,10 @@ export default function TeamDashboard() {
     toPng(activeTabContent, { cacheBust: true })
       .then((dataUrl) => {
         const link = document.createElement("a");
-        link.download = `Team_${teamNumber}'s_Dashboard.png`;
+        link.download = `Team_${teamNumber}'s-Dashboard.png`;
         link.href = dataUrl;
         link.click();
-        toast.success("Dashboard Image Captured", {
+        toast.success("Dashboard Captured", {
           description: `${
             activeTab.charAt(0).toUpperCase() + activeTab.slice(1)
           } Image Downloaded`,
@@ -138,7 +138,7 @@ export default function TeamDashboard() {
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-3xl font-bold">Team {teamNumber} Dashboard</h1>
             <Button variant="ghost" asChild>
-              <Link href="/dashboard">Back to Dashboard</Link>
+              <Link href="/teams">Back</Link>
             </Button>
           </div>
 
@@ -200,8 +200,8 @@ export default function TeamDashboard() {
           <div className="flex items-center justify-center py-6">
             <QRCodeSVG
               value={QRCodeData}
-              bgColor={QRBgColor}
-              fgColor={QRFgColor}
+              bgColor={QRBgColour}
+              fgColor={QRFgColour}
               size={256}
             />
           </div>
