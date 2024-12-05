@@ -72,6 +72,7 @@ export default function Form() {
       autoBasketLow: 0,
       autoChamberHigh: 0,
       autoChamberLow: 0,
+      autoAscentLevel: undefined,
       teleopBasketHigh: 0,
       teleopBasketLow: 0,
       teleopChamberHigh: 0,

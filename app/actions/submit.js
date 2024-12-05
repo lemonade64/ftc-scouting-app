@@ -30,6 +30,7 @@ export async function submit(formData) {
       formData.get("qualificationNumber"),
       formData.get("allianceColour"),
       formData.get("autoPreload"),
+      formData.get("autoAscentLevel"),
       formData.get("autoBasketHigh"),
       formData.get("autoBasketLow"),
       formData.get("autoChamberHigh"),

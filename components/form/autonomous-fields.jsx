@@ -95,6 +95,27 @@ export default function AutonomousFields({ control, setValue }) {
           </FormItem>
         )}
       />
+      <FormField
+        control={control}
+        name="autoAscentLevel"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Ascent Level</FormLabel>
+            <Select onValueChange={field.onChange} value={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Ascent Level" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                <SelectItem value="Level 1">Level 1</SelectItem>
+                <SelectItem value="N/A">N/A</SelectItem>
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
     </div>
   );
 }
