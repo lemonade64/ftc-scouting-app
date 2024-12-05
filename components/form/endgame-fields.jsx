@@ -38,10 +38,10 @@ export default function EndgameFields({ control }) {
                 </SelectTrigger>
               </FormControl>
               <SelectContent>
-                <SelectItem value="High">High</SelectItem>
-                <SelectItem value="Low">Low</SelectItem>
-                <SelectItem value="Park">Park</SelectItem>
-                <SelectItem value="Nothing">Nothing</SelectItem>
+                <SelectItem value="Level 3">Level 3</SelectItem>
+                <SelectItem value="Level 2">Level 2</SelectItem>
+                <SelectItem value="Level 1">Level 1</SelectItem>
+                <SelectItem value="N/A">N/A</SelectItem>
               </SelectContent>
             </Select>
             <FormMessage />

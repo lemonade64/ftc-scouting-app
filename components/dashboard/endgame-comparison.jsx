@@ -23,7 +23,7 @@ export default function EndgameComparison({
   comparisonTeam,
   chartConfig,
 }) {
-  const ascentLevels = ["High", "Low", "Park", "Nothing"];
+  const ascentLevels = ["Level 3", "Level 2", "Level 1", "N/A"];
   function getAscentLevelDistribution(data) {
     const distribution = data.reduce((acc, match) => {
       acc[match.endgameAscentLevel] = (acc[match.endgameAscentLevel] || 0) + 1;

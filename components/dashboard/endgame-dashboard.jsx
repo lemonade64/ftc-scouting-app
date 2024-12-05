@@ -20,36 +20,36 @@ const endgameChartConfig = {
   ascentTime: {
     label: "Time",
   },
-  high: {
-    label: "High",
+  "Level 3": {
+    label: "Level 3",
     color: "hsl(var(--chart-1))",
   },
-  low: {
-    label: "Low",
+  "Level 2": {
+    label: "Level 2",
     color: "hsl(var(--chart-2))",
   },
-  park: {
-    label: "Park",
+  "Level 1": {
+    label: "Level 3",
     color: "hsl(var(--chart-3))",
   },
-  nothing: {
-    label: "Nothing",
+  "N/A": {
+    label: "N/A",
     color: "hsl(var(--chart-4))",
   },
 };
 
 export default function EndgameTab({ currentTeamData = [] }) {
   const ascentLevelDistribution = currentTeamData.reduce((acc, match) => {
-    const level = match.endgameAscentLevel.toLowerCase();
+    const level = match.endgameAscentLevel;
     acc[level] = (acc[level] || 0) + 1;
     return acc;
   }, {});
 
   const ascentLevelData = [
-    { name: "High", Occurrences: ascentLevelDistribution.high || 0 },
-    { name: "Low", Occurrences: ascentLevelDistribution.low || 0 },
-    { name: "Park", Occurrences: ascentLevelDistribution.park || 0 },
-    { name: "Nothing", Occurrences: ascentLevelDistribution.nothing || 0 },
+    { name: "Level 3", Occurrences: ascentLevelDistribution["Level 3"] || 0 },
+    { name: "Level 2", Occurrences: ascentLevelDistribution["Level 2"] || 0 },
+    { name: "Level 1", Occurrences: ascentLevelDistribution["Level 1"] || 0 },
+    { name: "N/A", Occurrences: ascentLevelDistribution["N/A"] || 0 },
   ];
 
   const ascentTimeData = currentTeamData
@@ -85,7 +85,7 @@ export default function EndgameTab({ currentTeamData = [] }) {
                     <Bar
                       key={`bar-${index}`}
                       dataKey="Occurrences"
-                      fill={endgameChartConfig[entry.name.toLowerCase()].color}
+                      fill={endgameChartConfig[entry.name].color}
                       name={entry.name}
                     />
                   ))}
