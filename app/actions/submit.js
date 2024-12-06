@@ -3,9 +3,10 @@
 import { google } from "googleapis";
 
 export async function submit(formData) {
-  const spreadsheetId = formData.get("spreadsheetID");
-  if (!spreadsheetId) {
-    throw new Error("Spreadsheet ID is Required");
+  const spreadsheetID = formData.get("spreadsheetID");
+  const sheetID = formData.get("sheetID");
+  if (!spreadsheetID || !sheetID) {
+    throw new Error("Spreadsheet Details are Missing");
   }
 
   try {
@@ -46,8 +47,8 @@ export async function submit(formData) {
     ];
 
     await sheets.spreadsheets.values.append({
-      spreadsheetId,
-      range: "Sheet1",
+      spreadsheetId: spreadsheetID,
+      range: sheetID,
       valueInputOption: "RAW",
       requestBody: {
         values: [values],

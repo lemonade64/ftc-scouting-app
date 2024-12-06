@@ -57,6 +57,7 @@ export default function Form() {
   const [QRBgColour, setQRBgColour] = useState("#ffffff");
   const [QRFgColour, setQRFgColour] = useState("#000000");
   const [spreadsheetID, setSpreadsheetID] = useState("");
+  const [sheetID, setSheetID] = useState("");
   const [teams, setTeams] = useState({});
   const [JSONInput, setJSONInput] = useState("");
 
@@ -107,6 +108,10 @@ export default function Form() {
     if (storedTeams) {
       setTeams(JSON.parse(storedTeams));
     }
+    const storedSheetID = localStorage.getItem("sheetID");
+    if (storedSheetID) {
+      setSheetID(storedSheetID);
+    }
     window.addEventListener("theme-change", updateQRColours);
     return () => window.removeEventListener("theme-change", updateQRColours);
   }, [updateQRColours]);
@@ -124,6 +129,7 @@ export default function Form() {
         formData.append(key, value);
       });
       formData.append("spreadsheetID", spreadsheetID);
+      formData.append("sheetID", sheetID);
 
       saveData([values]);
       setStoredSubmissions(loadData());
@@ -153,7 +159,7 @@ export default function Form() {
 
       form.reset();
     },
-    [form, spreadsheetID]
+    [form, spreadsheetID, sheetID]
   );
 
   const handleSubmit = useCallback(() => {
@@ -184,9 +190,10 @@ export default function Form() {
 
   const handleSpreadsheetIDSave = useCallback(() => {
     localStorage.setItem("spreadsheetID", spreadsheetID);
+    localStorage.setItem("sheetID", sheetID);
     setShowSpreadsheetIDDialog(false);
-    toast.success("Spreadsheet ID Saved Successfully");
-  }, [spreadsheetID]);
+    toast.success("Spreadsheet Details Saved Successfully");
+  }, [spreadsheetID, sheetID]);
 
   const handleDataChange = useCallback((newData) => {
     setStoredSubmissions(newData);
@@ -331,17 +338,23 @@ export default function Form() {
             <DialogTitle>Spreadsheet ID and Teams</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label className="col-span-4">Spreadsheet ID</Label>
+            <div className="grid items-center gap-4">
+              <Label className="w-full">Spreadsheet ID</Label>
               <Input
                 value={spreadsheetID}
                 onChange={(e) => setSpreadsheetID(e.target.value)}
-                className="col-span-3"
               />
-              <Button onClick={handleSpreadsheetIDSave} className="col-span-1">
-                Save
-              </Button>
             </div>
+            <div className="grid items-center gap-4">
+              <Label className="w-full">Sheet ID</Label>
+              <Input
+                value={sheetID}
+                onChange={(e) => setSheetID(e.target.value)}
+              />
+            </div>
+            <Button onClick={handleSpreadsheetIDSave} className="col-span-1">
+              Save
+            </Button>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label className="col-span-4">Teams</Label>
               <Textarea
@@ -349,7 +362,7 @@ export default function Form() {
                 onChange={(e) => setJSONInput(e.target.value)}
                 className="col-span-4"
                 rows={10}
-                placeholder='{"teamNumber":"teamName","11148":"Barker Redbacks",...}'
+                placeholder='{"teamNumber":"teamName","11146":"Barker Redbacks",...}'
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
