@@ -2,6 +2,19 @@ import withSerwistInit from "@serwist/next";
 import { createMDX } from "fumadocs-mdx/next";
 import withBundleAnalyzer from "@next/bundle-analyzer";
 
+const CSPHeader = `
+    default-src 'self';
+    script-src 'self' 'unsafe-eval' 'unsafe-inline';
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' blob: data:;
+    font-src 'self';
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+    frame-ancestors 'none';
+    upgrade-insecure-requests;
+`;
+
 const revision = crypto.randomUUID();
 
 const nextConfig = {
@@ -11,12 +24,8 @@ const nextConfig = {
         source: "/(.*)",
         headers: [
           {
-            key: "X-Content-Type-Options",
-            value: "nosniff",
-          },
-          {
-            key: "X-Frame-Options",
-            value: "DENY",
+            key: "Content-Security-Policy",
+            value: CSPHeader.replace(/\n/g, ""),
           },
           {
             key: "Referrer-Policy",
@@ -37,7 +46,7 @@ const nextConfig = {
           },
           {
             key: "Content-Security-Policy",
-            value: "default-src 'self'; script-src 'self'",
+            value: CSPHeader.replace(/\n/g, ""),
           },
         ],
       },
