@@ -140,7 +140,18 @@ export default function Dashboard() {
           team.teamNumber.includes(searchQuery) ||
           team.teamName.toLowerCase().includes(searchQuery.toLowerCase())
       )
-      .sort((a, b) => b[sortBy] - a[sortBy]);
+      .sort((a, b) => {
+        if (sortBy === "total") {
+          return b.totalScore - a.totalScore;
+        } else if (sortBy === "auto") {
+          return b.autoScore - a.autoScore;
+        } else if (sortBy === "teleop") {
+          return b.teleopScore - a.teleopScore;
+        } else if (sortBy === "endgame") {
+          return b.endgameScore - a.endgameScore;
+        }
+        return 0;
+      });
   }, [uniqueTeams, searchQuery, sortBy]);
 
   if (isLoading) {
@@ -149,7 +160,7 @@ export default function Dashboard() {
 
   return (
     <div className="container mx-auto p-4 pb-10 min-h-[calc(100vh-8rem)]">
-      <h1 className="text-3xl font-bold mb-6">Team Overview</h1>
+      <h1 className="text-3xl font-bold mb-6">Teams</h1>
       <div className="flex justify-between mb-6 gap-4">
         <Input
           placeholder="Search Teams..."

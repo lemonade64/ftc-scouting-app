@@ -140,7 +140,18 @@ export default function Dashboard() {
           team.teamNumber.includes(searchQuery) ||
           team.teamName.toLowerCase().includes(searchQuery.toLowerCase())
       )
-      .sort((a, b) => b[sortBy] - a[sortBy]);
+      .sort((a, b) => {
+        if (sortBy === "total") {
+          return b.totalScore - a.totalScore;
+        } else if (sortBy === "auto") {
+          return b.autoScore - a.autoScore;
+        } else if (sortBy === "teleop") {
+          return b.teleopScore - a.teleopScore;
+        } else if (sortBy === "endgame") {
+          return b.endgameScore - a.endgameScore;
+        }
+        return 0;
+      });
   }, [uniqueTeams, searchQuery, sortBy]);
 
   if (isLoading) {
