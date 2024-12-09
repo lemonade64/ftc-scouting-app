@@ -134,9 +134,9 @@ export default function TeamDashboard() {
   return (
     <ContextMenu>
       <ContextMenuTrigger className="flex flex-col">
-        <div className="container mx-auto p-4 mb-10 flex flex-col">
+        <div className="container mx-auto p-4 pb-10 flex flex-col min-h-[calc(100vh-8rem)]">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-3xl font-bold">Team {teamNumber} Dashboard</h1>
+            <h1 className="text-3xl font-bold">Team {teamNumber}</h1>
             <Button variant="ghost" asChild>
               <Link href="/teams">Back</Link>
             </Button>
